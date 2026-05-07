@@ -366,15 +366,49 @@ function activateTab(tab,el){document.querySelectorAll('.nav-item').forEach(i=>i
 window.switchTab=function(tab,el){if(tab==='sifreler'&&!pinUnlocked){pendingTabEl=el;pinInput='';updateDots();document.getElementById('pinLabel').textContent='PIN Gir';document.getElementById('pinScreen').classList.remove('hidden');return;}activateTab(tab,el);};
 window.openModal=function(id){
   document.getElementById(id).classList.remove('hidden');
-  if(id==='bankaModal'){initHazirBankalar();initGunSelects();}
+  if(id==='bankaModal'){initHazirBankalar();initGunSelects();setupMoneyInputs();}
 };
+
+function setupMoneyInputs(){
+  const moneyIds=['kartLimit','kartKullanilanInput','kartPuan','avansLimit','avansKullanilanInput','paraTutar','borcTutar','lastikTutar','odemeTutar'];
+  moneyIds.forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el||el._moneySetup)return;
+    el._moneySetup=true;
+    el.addEventListener('input',function(){
+      const raw=this.value.replace(/[^0-9]/g,'');
+      if(!raw){this.dataset.raw='';return;}
+      this.dataset.raw=raw;
+    });
+  });
+}
+
+function getRawVal(id){
+  const el=document.getElementById(id);
+  if(!el)return 0;
+  return parseFloat(el.dataset.raw||el.value.replace(/\./g,'').replace(',','.'))||0;
+}
 window.closeModal=function(id){document.getElementById(id).classList.add('hidden');};
 document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.add('hidden');}));
 window.showToast=function(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);};
-function fmt(n){return'₺'+Number(n).toLocaleString('tr-TR');}
+function fmt(n){return'₺'+Number(n).toLocaleString('tr-TR',{minimumFractionDigits:0,maximumFractionDigits:0});}
 function catEmoji(type,catName){const list=CATS[type]||[];const found=list.find(c=>c.n===catName);return found?found.e:'📋';}
 document.getElementById('headerDate').textContent=new Date().toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'});
 const todayStr=new Date().toISOString().split('T')[0];
+
+// Auto format number inputs
+function setupNumInputs(){
+  document.querySelectorAll('input[type=number]').forEach(inp=>{
+    inp.addEventListener('input', function(){
+      // allow normal typing, just store raw value
+    });
+  });
+}
+
+function fmtInput(val){
+  if(!val && val!==0) return '';
+  return Number(val).toLocaleString('tr-TR',{minimumFractionDigits:0,maximumFractionDigits:0});
+}
 ['paraTarih','borcTarih','lastikTarih'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=todayStr;});
 let viewDate=new Date(),currentView='liste';
 function updateMonthLabel(){document.getElementById('monthLabel').textContent=viewDate.toLocaleDateString('tr-TR',{month:'long',year:'numeric'});}
@@ -382,7 +416,7 @@ updateMonthLabel();
 window.changeMonth=function(dir){viewDate=new Date(viewDate.getFullYear(),viewDate.getMonth()+dir,1);updateMonthLabel();renderPara();};
 window.setView=function(v,el){currentView=v;document.querySelectorAll('.view-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');['liste','takvim','istatistik'].forEach(x=>{const id='para'+x.charAt(0).toUpperCase()+x.slice(1);document.getElementById(id).style.display=x===v?'block':'none';});renderPara();};
 let allPara=[];
-window.addPara=async function(){const aciklama=document.getElementById('paraAciklama').value.trim();const tutar=parseFloat(document.getElementById('paraTutar').value);const hesap=document.getElementById('paraHesap').value;const tarih=document.getElementById('paraTarih').value;if(!aciklama||!tutar||!tarih){showToast('Tüm alanları doldur');return;}const cat=selectedCat||'Diğer';await addDoc(collection(db,'para'),{tur:selectedType,aciklama,tutar,hesap,tarih,kategori:cat,ts:Date.now()});closeModal('paraModal');document.getElementById('paraAciklama').value='';document.getElementById('paraTutar').value='';showToast('Kaydedildi ✓');};
+window.addPara=async function(){const aciklama=document.getElementById('paraAciklama').value.trim();const tutar=getRawVal('paraTutar');const hesap=document.getElementById('paraHesap').value;const tarih=document.getElementById('paraTarih').value;if(!aciklama||!tutar||!tarih){showToast('Tüm alanları doldur');return;}const cat=selectedCat||'Diğer';await addDoc(collection(db,'para'),{tur:selectedType,aciklama,tutar,hesap,tarih,kategori:cat,ts:Date.now()});closeModal('paraModal');document.getElementById('paraAciklama').value='';document.getElementById('paraTutar').value='';showToast('Kaydedildi ✓');};
 onSnapshot(query(collection(db,'para'),orderBy('ts','desc')),snap=>{allPara=snap.docs.map(d=>({id:d.id,...d.data()}));renderPara();});
 function getMonthData(){const y=viewDate.getFullYear(),m=viewDate.getMonth();return allPara.filter(p=>{const d=new Date(p.tarih+'T00:00:00');return d.getFullYear()===y&&d.getMonth()===m;});}
 function renderPara(){const data=getMonthData();const gelir=data.filter(p=>p.tur==='gelir').reduce((s,p)=>s+p.tutar,0);const gider=data.filter(p=>p.tur==='gider').reduce((s,p)=>s+p.tutar,0);const havale=data.filter(p=>p.tur==='havale').reduce((s,p)=>s+p.tutar,0);document.getElementById('totalGelir').textContent=fmt(gelir);document.getElementById('totalGider').textContent=fmt(gider);document.getElementById('totalHavale').textContent=fmt(havale);const net=gelir-gider;const netEl=document.getElementById('netBakiye');netEl.textContent=fmt(net);netEl.className='stat-value '+(net>=0?'gold':'red');if(currentView==='liste')renderListe(data);else if(currentView==='takvim')renderTakvim(data);else renderIstatistik(data);}
@@ -547,17 +581,17 @@ function initGunSelects(){
 
 window.addBanka = async function(){
   const ad=document.getElementById('bankaAdi').value.trim();
-  const kartLimit=parseFloat(document.getElementById('kartLimit').value)||0;
-  const kartKullanilan=parseFloat(document.getElementById('kartKullanilanInput').value)||0;
+  const kartLimit=getRawVal('kartLimit');
+  const kartKullanilan=getRawVal('kartKullanilanInput');
   const kartOdemeGun=parseInt(document.getElementById('kartOdemeGun').value)||null;
-  const kartPuan=parseFloat(document.getElementById('kartPuan').value)||0;
-  const avansLimit=parseFloat(document.getElementById('avansLimit').value)||0;
-  const avansKullanilan=parseFloat(document.getElementById('avansKullanilanInput').value)||0;
+  const kartPuan=getRawVal('kartPuan');
+  const avansLimit=getRawVal('avansLimit');
+  const avansKullanilan=getRawVal('avansKullanilanInput');
   const avansOdemeGun=parseInt(document.getElementById('avansOdemeGun').value)||null;
   if(!ad){showToast('Banka adı gir');return;}
   await addDoc(collection(db,'bankalar'),{ad,kartLimit,kartKullanilan,kartOdemeGun,kartPuan,avansLimit,avansKullanilan,avansOdemeGun,ts:Date.now()});
   closeModal('bankaModal');
-  ['bankaAdi','kartLimit','kartKullanilanInput','kartPuan','avansLimit','avansKullanilanInput'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['bankaAdi','kartLimit','kartKullanilanInput','kartPuan','avansLimit','avansKullanilanInput'].forEach(id=>{const el=document.getElementById(id);if(el){el.value='';el.dataset.raw='';}});
   showToast('Banka eklendi ✓');
 };
 
