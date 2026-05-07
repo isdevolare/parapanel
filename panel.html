@@ -108,13 +108,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
 /* ── STAT GRID ── */
 .sg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .sg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.sg3 .sc{padding:12px 10px}
 .sc{
   background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);padding:14px 16px;
   box-shadow:var(--shadow);transition:border-color .2s;
 }
 .sc:hover{border-color:var(--brd2)}
-.sl{font-size:10px;font-weight:600;color:var(--t3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
-.sv{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;letter-spacing:-.3px}
+.sl{font-size:9px;font-weight:600;color:var(--t3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px}
+.sv{font-family:'Inter',system-ui,sans-serif;font-size:22px;font-weight:700;letter-spacing:-.5px}
 .sv.gold{color:var(--gold)}.sv.red{color:var(--red)}.sv.grn{color:var(--grn)}.sv.blu{color:var(--blu)}
 
 /* ── MONTH NAV ── */
@@ -511,9 +512,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
     <div class="panel" id="tab-borclar">
       <div class="sec-title">Borçlar</div>
       <div class="sec-sub">Banka & Kart Takibi</div>
-      <div class="sg">
-        <div class="sc"><div class="sl">Toplam Borç</div><div class="sv red" id="totBorc">₺0</div></div>
-        <div class="sc"><div class="sl">Toplam Limit</div><div class="sv blu" id="totLimit">₺0</div></div>
+      <div class="sg3">
+        <div class="sc"><div class="sl">Kart Borcu</div><div class="sv red" id="totKartBorc">₺0</div></div>
+        <div class="sc"><div class="sl">Avans Borcu</div><div class="sv red" id="totAvansBorc">₺0</div></div>
+        <div class="sc" style="border-color:rgba(230,57,70,.3)"><div class="sl">Toplam Borç</div><div class="sv red" id="totBorc">₺0</div></div>
+        <div class="sc"><div class="sl">Kart Limiti</div><div class="sv blu" id="totKartLimit">₺0</div></div>
+        <div class="sc"><div class="sl">Avans Limiti</div><div class="sv blu" id="totAvansLimit">₺0</div></div>
+        <div class="sc" style="border-color:rgba(88,166,255,.2)"><div class="sl">Toplam Limit</div><div class="sv blu" id="totLimit">₺0</div></div>
       </div>
       <button class="add-btn" onclick="openBankaMo()">＋ Banka / Kart Ekle</button>
       <div id="bankalarDiv"></div>
@@ -936,9 +941,12 @@ async function delBankaConfirm(){
 function gunKalan(g){if(!g)return null;const t=new Date().getDate();return g>=t?g-t:30-(t-g);}
 function renderBankalar(){
   const el=$('bankalarDiv');
-  const totL=allBanka.reduce((s,b)=>s+(b.kartLimit||0),0);
-  const totB=allBanka.reduce((s,b)=>s+(b.kartKullanilan||0),0);
-  $('totLimit').textContent=fmt(totL);$('totBorc').textContent=fmt(totB);
+  const totKL=allBanka.reduce((s,b)=>s+(b.kartLimit||0),0);
+  const totAL=allBanka.reduce((s,b)=>s+(b.avansLimit||0),0);
+  const totKB=allBanka.reduce((s,b)=>s+(b.kartKullanilan||0),0);
+  const totAB=allBanka.reduce((s,b)=>s+(b.avansKullanilan||0),0);
+  $('totKartLimit').textContent=fmt(totKL);$('totAvansLimit').textContent=fmt(totAL);$('totLimit').textContent=fmt(totKL+totAL);
+  $('totKartBorc').textContent=fmt(totKB);$('totAvansBorc').textContent=fmt(totAB);$('totBorc').textContent=fmt(totKB+totAB);
   if(!allBanka.length){el.innerHTML='<div class="empty"><div class="empty-ic">🏦</div>Banka eklenmedi</div>';return;}
   el.innerHTML=allBanka.map(b=>{
     const hb=HAZIR.find(h=>h.ad===b.ad)||{e:'🏦',r:'#5b9ef5'};
