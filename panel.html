@@ -380,23 +380,29 @@ async function fetchDoviz(){
 function changePct(curr,prev){if(!prev)return '';const p=(curr-prev)/prev*100;if(Math.abs(p)<0.01)return '';return p>0?'<span style="color:var(--green);font-size:9px">up +'+p.toFixed(2)+'%</span>':'<span style="color:var(--red);font-size:9px">dn '+p.toFixed(2)+'%</span>';}
 function renderDovizCards(){
   const r=dovizRates,p=dovizPrev;
-  document.getElementById('dovizCards').innerHTML=CURRENCIES.map(c=>{
+  const cards = CURRENCIES.map(c=>{
     const rateVsTL=c.code==='TRY'?'Baz Para':c.code==='USD'?'1₺ = '+(1/r.TRY).toFixed(4)+'$':c.code==='THB'?'1₺ = '+(r.THB/r.TRY).toFixed(4)+'฿':'1₺ = '+(r.PHP/r.TRY).toFixed(4)+'₱';
     const prevRate=c.code==='TRY'?null:c.code==='USD'?1/p.TRY:c.code==='THB'?p.THB/p.TRY:p.PHP/p.TRY;
     const currRate=c.code==='TRY'?null:c.code==='USD'?1/r.TRY:c.code==='THB'?r.THB/r.TRY:r.PHP/r.TRY;
     const pct=currRate&&prevRate?changePct(currRate,prevRate):'';
-    return '<div style="padding:14px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px">'+
-      '<span style="font-size:22px">'+c.flag+'</span>'+
-      '<div style="flex:1">'+
-        '<div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;font-weight:600;color:'+c.color+'">'+c.code+'</span>'+pct+'</div>'+
-        '<div style="font-size:10px;color:var(--text3)">'+rateVsTL+'</div>'+
-      '</div>'+
-      '<div style="display:flex;align-items:center;gap:6px">'+
-        '<span style="font-size:18px;color:var(--text3)">'+c.sym+'</span>'+
-        '<input type="number" id="dinput-'+c.id+'" placeholder="0" inputmode="decimal" oninput="dovizConvert(''+c.code+'')" style="background:transparent;border:none;outline:none;color:var(--text);font-family:DM Mono,monospace;font-size:22px;font-weight:600;width:120px;text-align:right">'+
-      '</div>'+
-    '</div>';
-  }).join('');
+    const div=document.createElement('div');
+    div.style.cssText='padding:14px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px';
+    div.innerHTML='<span style="font-size:22px">'+c.flag+'</span>'
+      +'<div style="flex:1"><div style="display:flex;align-items:center;gap:8px">'
+      +'<span style="font-size:13px;font-weight:600;color:'+c.color+'">'+c.code+'</span>'+pct+'</div>'
+      +'<div style="font-size:10px;color:var(--text3)">'+rateVsTL+'</div></div>'
+      +'<div style="display:flex;align-items:center;gap:6px">'
+      +'<span style="font-size:18px;color:var(--text3)">'+c.sym+'</span></div>';
+    const input=document.createElement('input');
+    input.type='number';input.id='dinput-'+c.id;input.placeholder='0';input.inputMode='decimal';
+    input.style.cssText='background:transparent;border:none;outline:none;color:var(--text);font-family:DM Mono,monospace;font-size:22px;font-weight:600;width:120px;text-align:right';
+    input.addEventListener('input',()=>dovizConvert(c.code));
+    div.querySelector('div:last-child').appendChild(input);
+    return div;
+  });
+  const dc=document.getElementById('dovizCards');
+  dc.innerHTML='';
+  cards.forEach(c=>dc.appendChild(c));
   document.getElementById('crossRates').innerHTML=[
     {l:'1 USD',v:r.TRY?.toFixed(2)+' ₺'},
     {l:'1 USD',v:r.THB?.toFixed(2)+' ฿'},
