@@ -171,13 +171,18 @@ body::after{content:'';position:fixed;top:-30%;left:50%;transform:translateX(-50
     </div>
     <div class="tab-panel" id="tab-borclar">
       <div class="section-title">Borçlar</div>
-      <div class="section-sub">Kredi Kartı & Borç Takibi</div>
+      <div class="section-sub">Banka & Ödeme Takibi</div>
       <div class="stat-grid">
         <div class="stat-card"><div class="stat-label">Toplam Borç</div><div class="stat-value red" id="totalBorc">₺0</div></div>
-        <div class="stat-card"><div class="stat-label">Yaklaşan Ödeme</div><div class="stat-value gold" id="buAyOdeme">₺0</div></div>
+        <div class="stat-card"><div class="stat-label">Bu Ay Ödenecek</div><div class="stat-value gold" id="buAyOdeme">₺0</div></div>
+        <div class="stat-card full"><div class="stat-label">Toplam Kart Limiti</div><div class="stat-value blue" id="totalLimit">₺0</div></div>
       </div>
-      <button class="add-btn" onclick="openModal('borcModal')">＋ Borç / Kart Ekle</button>
-      <div id="borcList"><div class="card"><div class="empty"><div class="empty-icon">💳</div>Borç veya kart yok</div></div></div>
+      <div style="font-size:10px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">Bankalarım</div>
+      <div id="bankalarGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px"></div>
+      <button class="add-btn" onclick="openModal('bankaModal')">＋ Banka Ekle</button>
+      <div style="font-size:10px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;margin-top:8px">Ödemeler</div>
+      <div id="borcList"><div class="card"><div class="empty"><div class="empty-icon">💳</div>Ödeme yok</div></div></div>
+      <button class="add-btn" onclick="openModal('odemeModal')">＋ Ödeme Ekle</button>
     </div>
     <div class="tab-panel" id="tab-lastik">
       <div class="section-title">Lastik</div>
@@ -262,17 +267,47 @@ body::after{content:'';position:fixed;top:-30%;left:50%;transform:translateX(-50
     </div>
   </div>
 </div>
-<div class="modal-overlay hidden" id="borcModal">
+<div class="modal-overlay hidden" id="bankaModal">
   <div class="modal">
-    <div class="modal-title">Borç / Kart Ekle</div>
-    <div class="field"><label>Tür</label><select id="borcTur"><option value="kart">💳 Kredi Kartı</option><option value="kisi">👤 Kişiye Borç</option><option value="diger">📋 Diğer</option></select></div>
-    <div class="field"><label>İsim / Kart Adı</label><input type="text" id="borcIsim" placeholder="Örn: Garanti BBVA"></div>
-    <div class="field"><label>Borç Tutarı (₺)</label><input type="number" id="borcTutar" placeholder="0" inputmode="decimal"></div>
-    <div class="field"><label>Son Ödeme Tarihi</label><input type="date" id="borcTarih"></div>
-    <div class="field"><label>Not</label><textarea id="borcNot" placeholder="Notlar..."></textarea></div>
+    <div class="modal-title">Banka Ekle</div>
+    <div class="field"><label>Hazır Bankalar</label>
+      <div id="hazirBankalar" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px"></div>
+    </div>
+    <div class="field"><label>Banka Adı</label><input type="text" id="bankaAdi" placeholder="Örn: Yapı Kredi"></div>
+    <div class="field"><label>Kredi Kartı Limiti (₺)</label><input type="number" id="kartLimit" placeholder="0" inputmode="decimal"></div>
+    <div class="field"><label>Avans / Nakit Limiti (₺)</label><input type="number" id="avansLimit" placeholder="0" inputmode="decimal"></div>
+    <div class="field"><label>Mevcut Borç (₺)</label><input type="number" id="bankaBorc" placeholder="0" inputmode="decimal"></div>
     <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('borcModal')">İptal</button>
-      <button class="btn-primary" onclick="addBorc()">Kaydet</button>
+      <button class="btn-secondary" onclick="closeModal('bankaModal')">İptal</button>
+      <button class="btn-primary" onclick="addBanka()">Kaydet</button>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay hidden" id="odemeModal">
+  <div class="modal">
+    <div class="modal-title">Ödeme Ekle</div>
+    <div class="field"><label>Banka / Kaynak</label><select id="odemeKaynak"><option value="">Seç...</option></select></div>
+    <div class="field"><label>Açıklama</label><input type="text" id="odemeAciklama" placeholder="Örn: Aralık ekstresi"></div>
+    <div class="field"><label>Tutar (₺)</label><input type="number" id="odemeTutar" placeholder="0" inputmode="decimal"></div>
+    <div class="field"><label>Her Ayın Kaçında?</label>
+      <select id="odemeGun">
+        <option value="">Seç...</option>
+        <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+        <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+        <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+        <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+        <option value="13">13</option><option value="14">14</option><option value="15">15</option>
+        <option value="16">16</option><option value="17">17</option><option value="18">18</option>
+        <option value="19">19</option><option value="20">20</option><option value="21">21</option>
+        <option value="22">22</option><option value="23">23</option><option value="24">24</option>
+        <option value="25">25</option><option value="26">26</option><option value="27">27</option>
+        <option value="28">28</option><option value="29">29</option><option value="30">30</option>
+      </select>
+    </div>
+    <div class="field"><label>Not</label><textarea id="odemeNot" placeholder="Notlar..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('odemeModal')">İptal</button>
+      <button class="btn-primary" onclick="addOdeme()">Kaydet</button>
     </div>
   </div>
 </div>
@@ -346,8 +381,155 @@ function renderPara(){const data=getMonthData();const gelir=data.filter(p=>p.tur
 function renderListe(data){const el=document.getElementById('paraListe');if(!data.length){el.innerHTML='<div class="empty"><div class="empty-icon">💰</div>Bu ay işlem yok</div>';return;}el.innerHTML='<div class="card">'+data.map(p=>`<div class="item-row"><div class="cat-icon" style="background:${p.tur==='gelir'?'var(--green-dim)':p.tur==='havale'?'var(--blue-dim)':'var(--red-dim)'}">${catEmoji(p.tur,p.kategori)}</div><div class="item-info"><div class="item-name">${p.aciklama}</div><div class="item-meta"><span>${p.tarih}</span><span class="badge ${p.tur==='gelir'?'green':p.tur==='havale'?'blue':'red'}">${p.kategori||p.tur}</span><span>${p.hesap||''}</span></div></div><div class="item-amount ${p.tur==='gelir'?'green':p.tur==='havale'?'blue':'red'}">${p.tur==='gider'?'-':'+'}${fmt(p.tutar)}</div><button class="item-del" onclick="delDoc('para','${p.id}')">✕</button></div>`).join('')+'</div>';}
 function renderTakvim(data){const el=document.getElementById('paraTakvim');if(!data.length){el.innerHTML='<div class="empty"><div class="empty-icon">📅</div>Bu ay işlem yok</div>';return;}const groups={};data.forEach(p=>{if(!groups[p.tarih])groups[p.tarih]=[];groups[p.tarih].push(p);});const sorted=Object.keys(groups).sort((a,b)=>b.localeCompare(a));el.innerHTML=sorted.map(date=>{const items=groups[date];const dayNet=items.reduce((s,p)=>p.tur==='gelir'?s+p.tutar:p.tur==='gider'?s-p.tutar:s,0);const d=new Date(date+'T00:00:00');const dayName=d.toLocaleDateString('tr-TR',{weekday:'short'}).toUpperCase();return`<div class="day-group"><div class="day-header"><div style="display:flex;align-items:baseline;gap:8px"><span class="day-num">${d.getDate()}</span><span class="day-name">${dayName}</span></div><span class="day-total" style="color:${dayNet>=0?'var(--green)':'var(--red)'}">${dayNet>=0?'+':''}${fmt(dayNet)}</span></div><div class="card" style="padding:0 18px;margin-top:4px">${items.map(p=>`<div class="item-row"><div class="cat-icon" style="background:${p.tur==='gelir'?'var(--green-dim)':p.tur==='havale'?'var(--blue-dim)':'var(--red-dim)'}">${catEmoji(p.tur,p.kategori)}</div><div class="item-info"><div class="item-name">${p.aciklama}</div><div class="item-meta"><span>${p.hesap||''}</span><span class="badge ${p.tur==='gelir'?'green':p.tur==='havale'?'blue':'red'}">${p.kategori||p.tur}</span></div></div><div class="item-amount ${p.tur==='gelir'?'green':p.tur==='havale'?'blue':'red'}">${p.tur==='gider'?'-':'+'}${fmt(p.tutar)}</div><button class="item-del" onclick="delDoc('para','${p.id}')">✕</button></div>`).join('')}</div></div>`}).join('');}
 function renderIstatistik(data){const el=document.getElementById('paraIstatistik');if(!data.length){el.innerHTML='<div class="empty"><div class="empty-icon">📊</div>Bu ay işlem yok</div>';return;}const catTotals={};data.filter(p=>p.tur==='gider').forEach(p=>{const k=p.kategori||'Diğer';catTotals[k]=(catTotals[k]||0)+p.tutar;});const giderTotal=Object.values(catTotals).reduce((s,v)=>s+v,0);const sorted=Object.entries(catTotals).sort((a,b)=>b[1]-a[1]);const colors=['#e05252','#c9a84c','#4caf82','#5b9bd5','#9b7fd4','#e0845b','#5bc4d5','#aaa'];const hesapTotals={};data.forEach(p=>{const h=p.hesap||'Diğer';if(!hesapTotals[h])hesapTotals[h]={gelir:0,gider:0};if(p.tur==='gelir')hesapTotals[h].gelir+=p.tutar;if(p.tur==='gider')hesapTotals[h].gider+=p.tutar;});el.innerHTML=`<div class="card"><div class="stat-label" style="margin-bottom:12px">Gider Kategorileri</div><div class="stats-bar">${sorted.map(([k,v],i)=>`<div class="stats-fill" style="width:${giderTotal?v/giderTotal*100:0}%;background:${colors[i%colors.length]}"></div>`).join('')}</div>${sorted.length?sorted.map(([k,v],i)=>`<div class="istat-item"><div class="istat-left"><div style="width:10px;height:10px;border-radius:50%;background:${colors[i%colors.length]};flex-shrink:0"></div><div><div class="istat-label">${catEmoji('gider',k)} ${k}</div><div class="istat-pct">${giderTotal?(v/giderTotal*100).toFixed(1):0}%</div></div></div><div class="istat-val" style="color:var(--red)">${fmt(v)}</div></div>`).join(''):'<div style="color:var(--text3);font-size:12px;text-align:center">Gider yok</div>'}</div><div class="card"><div class="stat-label" style="margin-bottom:12px">Hesap Bazında</div>${Object.entries(hesapTotals).map(([h,v])=>`<div class="istat-item"><div class="istat-label">${h}</div><div style="display:flex;gap:12px"><div style="color:var(--green);font-family:'Cormorant Garamond',serif;font-size:15px">+${fmt(v.gelir)}</div><div style="color:var(--red);font-family:'Cormorant Garamond',serif;font-size:15px">-${fmt(v.gider)}</div></div></div>`).join('')}</div>`;}
-onSnapshot(query(collection(db,'borclar'),orderBy('ts','desc')),snap=>{const data=snap.docs.map(d=>({id:d.id,...d.data()}));const total=data.reduce((s,b)=>s+b.tutar,0);document.getElementById('totalBorc').textContent=fmt(total);const upcoming=data.filter(b=>b.tarih&&b.tarih>=todayStr).reduce((s,b)=>s+b.tutar,0);document.getElementById('buAyOdeme').textContent=fmt(upcoming);const list=document.getElementById('borcList');if(!data.length){list.innerHTML='<div class="card"><div class="empty"><div class="empty-icon">💳</div>Borç veya kart yok</div></div>';return;}const icons={kart:'💳',kisi:'👤',diger:'📋'};list.innerHTML=data.map(b=>`<div class="card" style="margin-bottom:10px"><div style="display:flex;align-items:center;justify-content:space-between"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:22px">${icons[b.tur]||'📋'}</span><div><div style="font-size:14px">${b.isim}</div><div style="font-size:10px;color:var(--text3)">${b.tarih?'Son ödeme: '+b.tarih:''}</div></div></div><div style="display:flex;align-items:center;gap:10px"><div class="item-amount red">${fmt(b.tutar)}</div><button class="item-del" onclick="delDoc('borclar','${b.id}')">✕</button></div></div>${b.not?`<div style="font-size:11px;color:var(--text3);padding-top:10px;border-top:1px solid var(--border);margin-top:10px">${b.not}</div>`:''}</div>`).join('');});
-window.addBorc=async function(){const tur=document.getElementById('borcTur').value,isim=document.getElementById('borcIsim').value.trim(),tutar=parseFloat(document.getElementById('borcTutar').value),tarih=document.getElementById('borcTarih').value,not=document.getElementById('borcNot').value.trim();if(!isim||!tutar){showToast('Tüm alanları doldur');return;}await addDoc(collection(db,'borclar'),{tur,isim,tutar,tarih,not,ts:Date.now()});closeModal('borcModal');document.getElementById('borcIsim').value='';document.getElementById('borcTutar').value='';document.getElementById('borcNot').value='';showToast('Kaydedildi ✓');};
+// BANKALAR SISTEMI
+const HAZIR_BANKALAR = [
+  {ad:'Yapı Kredi',renk:'#0066CC',emoji:'🏦'},
+  {ad:'İş Bankası',renk:'#005CA9',emoji:'🏛'},
+  {ad:'Garanti',renk:'#00A651',emoji:'💚'},
+  {ad:'Akbank',renk:'#E30613',emoji:'❤️'},
+  {ad:'Ziraat',renk:'#E30613',emoji:'🌾'},
+  {ad:'Halkbank',renk:'#003087',emoji:'🔵'},
+  {ad:'Vakıfbank',renk:'#F5A623',emoji:'🟡'},
+  {ad:'Denizbank',renk:'#00A3E0',emoji:'🌊'},
+  {ad:'QNB Finansbank',renk:'#6B0080',emoji:'💜'},
+  {ad:'TEB',renk:'#003087',emoji:'🏢'},
+  {ad:'Enpara',renk:'#FF6B00',emoji:'🟠'},
+  {ad:'ING',renk:'#FF6600',emoji:'🦁'},
+  {ad:'Fibabanka',renk:'#00A3E0',emoji:'🔷'},
+  {ad:'HSBC',renk:'#DB0011',emoji:'🔴'},
+  {ad:'Burgan',renk:'#005BAA',emoji:'🏦'},
+];
+
+function initHazirBankalar(){
+  const grid = document.getElementById('hazirBankalar');
+  if(!grid) return;
+  grid.innerHTML = HAZIR_BANKALAR.map(b=>
+    `<button class="cat-option" onclick="secBanka('${b.ad}')" style="font-size:10px">
+      <span style="font-size:16px">${b.emoji}</span>
+      <span>${b.ad}</span>
+    </button>`
+  ).join('');
+}
+document.addEventListener('click', e=>{
+  if(e.target.closest('#bankaModal')) initHazirBankalar();
+});
+
+window.secBanka = function(ad) {
+  document.getElementById('bankaAdi').value = ad;
+  document.querySelectorAll('#hazirBankalar .cat-option').forEach(b=>{
+    b.classList.toggle('selected', b.textContent.trim().includes(ad));
+  });
+};
+
+let bankaData = [];
+onSnapshot(query(collection(db,'bankalar'),orderBy('ts','desc')),snap=>{
+  bankaData = snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderBankalar();
+  updateOdemeKaynak();
+});
+
+function renderBankalar(){
+  const grid = document.getElementById('bankalarGrid');
+  if(!grid) return;
+  const totalLimit = bankaData.reduce((s,b)=>s+(b.kartLimit||0),0);
+  const totalBorc = bankaData.reduce((s,b)=>s+(b.borc||0),0);
+  document.getElementById('totalBorc').textContent = fmt(totalBorc);
+  document.getElementById('totalLimit').textContent = fmt(totalLimit);
+
+  if(!bankaData.length){
+    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--text3);font-size:12px;padding:20px">Banka eklenmedi</div>';
+    return;
+  }
+  grid.innerHTML = bankaData.map(b=>{
+    const hb = HAZIR_BANKALAR.find(h=>h.ad===b.ad)||{emoji:'🏦',renk:'var(--gold)'};
+    const kullanim = b.kartLimit ? Math.min((b.borc||0)/b.kartLimit*100,100) : 0;
+    return `<div class="card" style="padding:14px;border-color:${hb.renk}22;margin-bottom:0">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:20px">${hb.emoji}</span>
+          <div style="font-size:11px;font-weight:600;color:var(--text)">${b.ad}</div>
+        </div>
+        <button class="item-del" onclick="delDoc('bankalar','${b.id}')">✕</button>
+      </div>
+      ${b.kartLimit?`<div style="font-size:9px;color:var(--text3);letter-spacing:1px;margin-bottom:3px">KART LİMİTİ</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--blue)">${fmt(b.kartLimit)}</div>
+      <div style="height:3px;background:var(--border);border-radius:2px;margin:6px 0">
+        <div style="height:100%;width:${kullanim}%;background:${kullanim>80?'var(--red)':'var(--blue)'};border-radius:2px;transition:width .5s"></div>
+      </div>`:''}
+      ${b.avansLimit?`<div style="font-size:9px;color:var(--text3);letter-spacing:1px;margin-top:4px">AVANS</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--purple)">${fmt(b.avansLimit)}</div>`:''}
+      ${b.borc?`<div style="font-size:9px;color:var(--text3);letter-spacing:1px;margin-top:4px">MEVCUT BORÇ</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--red)">${fmt(b.borc)}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+window.addBanka = async function(){
+  const ad=document.getElementById('bankaAdi').value.trim();
+  const kartLimit=parseFloat(document.getElementById('kartLimit').value)||0;
+  const avansLimit=parseFloat(document.getElementById('avansLimit').value)||0;
+  const borc=parseFloat(document.getElementById('bankaBorc').value)||0;
+  if(!ad){showToast('Banka adı gir');return;}
+  await addDoc(collection(db,'bankalar'),{ad,kartLimit,avansLimit,borc,ts:Date.now()});
+  closeModal('bankaModal');
+  document.getElementById('bankaAdi').value='';
+  document.getElementById('kartLimit').value='';
+  document.getElementById('avansLimit').value='';
+  document.getElementById('bankaBorc').value='';
+  showToast('Banka eklendi ✓');
+};
+
+// ÖDEMELER
+function updateOdemeKaynak(){
+  const sel=document.getElementById('odemeKaynak');
+  if(!sel)return;
+  const cur=sel.value;
+  sel.innerHTML='<option value="">Seç...</option>'+bankaData.map(b=>`<option value="${b.ad}">${b.ad}</option>`).join('')+'<option value="Diğer">Diğer</option>';
+  if(cur)sel.value=cur;
+}
+
+onSnapshot(query(collection(db,'odemeler'),orderBy('gun','asc')),snap=>{
+  const data=snap.docs.map(d=>({id:d.id,...d.data()}));
+  const today=new Date().getDate();
+  const thisMonth=data.reduce((s,o)=>s+(o.tutar||0),0);
+  document.getElementById('buAyOdeme').textContent=fmt(thisMonth);
+  const list=document.getElementById('borcList');
+  if(!data.length){list.innerHTML='<div class="card"><div class="empty"><div class="empty-icon">📅</div>Ödeme yok</div></div>';return;}
+  list.innerHTML='<div class="card">'+data.map(o=>{
+    const gunKalan=o.gun>=today?o.gun-today:30-(today-o.gun);
+    const urgent=gunKalan<=3;
+    return `<div class="item-row">
+      <div style="width:36px;height:36px;border-radius:10px;background:${urgent?'var(--red-dim)':'var(--gold-dim)'};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:${urgent?'var(--red)':'var(--gold)'}">${o.gun}</span>
+      </div>
+      <div class="item-info">
+        <div class="item-name">${o.aciklama}</div>
+        <div class="item-meta">
+          <span>${o.kaynak||''}</span>
+          <span class="badge ${urgent?'red':'gold'}">${gunKalan===0?'Bugün':gunKalan+' gün'}</span>
+        </div>
+      </div>
+      <div class="item-amount red">${fmt(o.tutar)}</div>
+      <button class="item-del" onclick="delDoc('odemeler','${o.id}')">✕</button>
+    </div>`;
+  }).join('')+'</div>';
+});
+
+window.addOdeme=async function(){
+  const kaynak=document.getElementById('odemeKaynak').value;
+  const aciklama=document.getElementById('odemeAciklama').value.trim();
+  const tutar=parseFloat(document.getElementById('odemeTutar').value);
+  const gun=parseInt(document.getElementById('odemeGun').value);
+  const not=document.getElementById('odemeNot').value.trim();
+  if(!aciklama||!tutar||!gun){showToast('Tüm alanları doldur');return;}
+  await addDoc(collection(db,'odemeler'),{kaynak,aciklama,tutar,gun,not,ts:Date.now()});
+  closeModal('odemeModal');
+  document.getElementById('odemeAciklama').value='';
+  document.getElementById('odemeTutar').value='';
+  document.getElementById('odemeGun').value='';
+  document.getElementById('odemeNot').value='';
+  showToast('Ödeme eklendi ✓');
+};
 onSnapshot(query(collection(db,'lastik'),orderBy('ts','desc')),snap=>{const data=snap.docs.map(d=>({id:d.id,...d.data()}));const alim=data.filter(l=>l.islem==='alim').reduce((s,l)=>s+l.tutar,0);const satis=data.filter(l=>l.islem==='satis').reduce((s,l)=>s+l.tutar,0);document.getElementById('totalAlim').textContent=fmt(alim);document.getElementById('totalSatis').textContent=fmt(satis);const kar=satis-alim;const karEl=document.getElementById('netKar');karEl.textContent=fmt(kar);karEl.className='stat-value '+(kar>=0?'green':'red');const list=document.getElementById('lastikList');if(!data.length){list.innerHTML='<div class="card"><div class="empty"><div class="empty-icon">🔄</div>Henüz lastik yok</div></div>';return;}list.innerHTML='<div class="card">'+data.map(l=>`<div class="item-row"><div class="cat-icon" style="background:${l.islem==='alim'?'var(--red-dim)':'var(--green-dim)'}">${l.islem==='alim'?'📥':'📤'}</div><div class="item-info"><div class="item-name">${l.bilgi}</div><div class="item-meta"><span>${l.tarih}</span><span class="badge ${l.islem==='alim'?'red':'green'}">${l.islem}</span>${l.not?`<span>${l.not}</span>`:''}</div></div><div class="item-amount ${l.islem==='alim'?'red':'green'}">${l.islem==='alim'?'-':'+'}${fmt(l.tutar)}</div><button class="item-del" onclick="delDoc('lastik','${l.id}')">✕</button></div>`).join('')+'</div>';});
 window.addLastik=async function(){const islem=document.getElementById('lastikIslem').value,bilgi=document.getElementById('lastikBilgi').value.trim(),tutar=parseFloat(document.getElementById('lastikTutar').value),tarih=document.getElementById('lastikTarih').value,not=document.getElementById('lastikNot').value.trim();if(!bilgi||!tutar){showToast('Tüm alanları doldur');return;}await addDoc(collection(db,'lastik'),{islem,bilgi,tutar,tarih,not,ts:Date.now()});closeModal('lastikModal');document.getElementById('lastikBilgi').value='';document.getElementById('lastikTutar').value='';document.getElementById('lastikNot').value='';showToast('Kaydedildi ✓');};
 onSnapshot(query(collection(db,'sifreler'),orderBy('ts','desc')),snap=>{const data=snap.docs.map(d=>({id:d.id,...d.data()}));const list=document.getElementById('sifreList');if(!data.length){list.innerHTML='<div class="empty"><div class="empty-icon">🔑</div>Henüz şifre yok</div>';return;}list.innerHTML=data.map(s=>`<div class="pw-item"><div class="pw-info"><div class="pw-site">${s.site}</div><div class="pw-user">${s.user||'—'}</div>${s.not?`<div style="font-size:10px;color:var(--text3);margin-top:2px">${s.not}</div>`:''}</div><div class="pw-actions"><button class="pw-btn" onclick="copyText('${s.pass}')">📋</button><button class="pw-btn" onclick="togglePass(this,'${s.pass}')">👁</button><button class="item-del" onclick="delDoc('sifreler','${s.id}')">✕</button></div></div>`).join('');});
