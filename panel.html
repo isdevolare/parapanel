@@ -139,7 +139,7 @@ body::after{content:'';position:fixed;top:-30%;left:50%;transform:translateX(-50
     <button class="pin-btn" onclick="pinPress('1')">1</button><button class="pin-btn" onclick="pinPress('2')">2</button><button class="pin-btn" onclick="pinPress('3')">3</button>
     <button class="pin-btn" onclick="pinPress('4')">4</button><button class="pin-btn" onclick="pinPress('5')">5</button><button class="pin-btn" onclick="pinPress('6')">6</button>
     <button class="pin-btn" onclick="pinPress('7')">7</button><button class="pin-btn" onclick="pinPress('8')">8</button><button class="pin-btn" onclick="pinPress('9')">9</button>
-    <button class="pin-btn empty"></button><button class="pin-btn" onclick="pinPress('0')">0</button><button class="pin-btn del" onclick="pinDel()">⌫</button>
+    <button class="pin-btn del" onclick="pinGeri()" style="font-size:13px;color:var(--text3)">Geri</button><button class="pin-btn" onclick="pinPress('0')">0</button><button class="pin-btn del" onclick="pinDel()">⌫</button>
   </div>
 </div>
 <div class="app">
@@ -190,6 +190,36 @@ body::after{content:'';position:fixed;top:-30%;left:50%;transform:translateX(-50
       <button class="add-btn" onclick="openModal('lastikModal')">＋ Lastik Ekle</button>
       <div id="lastikList"><div class="card"><div class="empty"><div class="empty-icon">🔄</div>Henüz lastik yok</div></div></div>
     </div>
+    <div class="tab-panel" id="tab-doviz">
+      <div class="section-title">Döviz</div>
+      <div class="section-sub">Canlı Kur Çevirici</div>
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div style="display:flex;align-items:center;gap:8px"><div style="width:7px;height:7px;border-radius:50%;background:var(--green);animation:dot 2s infinite"></div><span style="font-size:10px;color:var(--text3);letter-spacing:2px;text-transform:uppercase">Canlı Kur</span></div>
+          <span style="font-size:10px;color:var(--text3);font-family:DM Mono,monospace" id="dovizTime">Yükleniyor...</span>
+        </div>
+        <div id="dovizCards"></div>
+      </div>
+      <div class="card">
+        <div style="font-size:9px;color:var(--text3);letter-spacing:3px;text-transform:uppercase;margin-bottom:14px">Çapraz Kurlar</div>
+        <div id="crossRates" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-doviz">
+      <div class="section-title">Döviz</div>
+      <div class="section-sub">Canlı Kur Cevirici</div>
+      <div class="card" style="margin-bottom:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div style="display:flex;align-items:center;gap:8px"><div style="width:7px;height:7px;border-radius:50%;background:var(--green);animation:dot 2s infinite"></div><span style="font-size:10px;color:var(--text3);letter-spacing:2px;text-transform:uppercase">Canli Kur</span></div>
+          <span style="font-size:10px;color:var(--text3)" id="dovizTime">Yukleniyor...</span>
+        </div>
+        <div id="dovizCards"></div>
+      </div>
+      <div class="card">
+        <div style="font-size:9px;color:var(--text3);letter-spacing:3px;text-transform:uppercase;margin-bottom:14px">Capraz Kurlar</div>
+        <div id="crossRates" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
+      </div>
+    </div>
     <div class="tab-panel" id="tab-sifreler">
       <div class="section-title">Şifreler</div>
       <div class="section-sub">Şifreli & Güvenli</div>
@@ -202,6 +232,7 @@ body::after{content:'';position:fixed;top:-30%;left:50%;transform:translateX(-50
     <div class="nav-item" onclick="switchTab('borclar',this)"><div class="nav-icon">💳</div><div class="nav-label">Borçlar</div></div>
     <div class="nav-item" onclick="switchTab('lastik',this)"><div class="nav-icon">🔄</div><div class="nav-label">Lastik</div></div>
     <div class="nav-item" onclick="switchTab('sifreler',this)"><div class="nav-icon">🔑</div><div class="nav-label">Şifreler</div></div>
+    <div class="nav-item" onclick="switchTab('doviz',this)"><div class="nav-icon">💱</div><div class="nav-label">Döviz</div></div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -284,10 +315,12 @@ window.setType=function(t){selectedType=t;selectedCat='';['gelir','gider','haval
 function renderCatGrid(){const cats=CATS[selectedType]||[];document.getElementById('catGrid').innerHTML=cats.map(c=>`<button class="cat-option${selectedCat===c.n?' selected':''}" onclick="selectCat('${c.n}')"><span class="cat-em">${c.e}</span><span>${c.n}</span></button>`).join('');}
 window.selectCat=function(n){selectedCat=n;renderCatGrid();};
 renderCatGrid();
-const CORRECT_PIN='1234';
+const CORRECT_PIN='1275';
 let pinInput='',pinUnlocked=false,pendingTabEl=null;
 window.pinPress=function(n){if(pinInput.length>=4)return;pinInput+=n;updateDots();if(pinInput.length===4){setTimeout(()=>{if(pinInput===CORRECT_PIN){pinUnlocked=true;document.getElementById('pinScreen').classList.add('hidden');if(pendingTabEl){activateTab('sifreler',pendingTabEl);pendingTabEl=null;}}else{document.querySelectorAll('.pin-dot').forEach(d=>d.classList.add('error'));setTimeout(()=>{document.querySelectorAll('.pin-dot').forEach(d=>d.classList.remove('error','filled'));pinInput='';updateDots();document.getElementById('pinLabel').textContent='Yanlış PIN';setTimeout(()=>document.getElementById('pinLabel').textContent='PIN Gir',1500);},500);}},100);}};
 window.pinDel=function(){pinInput=pinInput.slice(0,-1);updateDots();};
+window.pinGeri=function(){document.getElementById('pinScreen').classList.add('hidden');pendingTabEl=null;pinInput='';updateDots();};
+window.pinGeri=function(){document.getElementById('pinScreen').classList.add('hidden');pendingTabEl=null;pinInput='';updateDots();};
 function updateDots(){for(let i=0;i<4;i++)document.getElementById('pd'+i).classList.toggle('filled',i<pinInput.length);}
 function activateTab(tab,el){document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));el.classList.add('active');document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.getElementById('tab-'+tab).classList.add('active');document.getElementById('mainContent').scrollTop=0;}
 window.switchTab=function(tab,el){if(tab==='sifreler'&&!pinUnlocked){pendingTabEl=el;pinInput='';updateDots();document.getElementById('pinLabel').textContent='PIN Gir';document.getElementById('pinScreen').classList.remove('hidden');return;}activateTab(tab,el);};
@@ -322,6 +355,73 @@ window.addSifre=async function(){const site=document.getElementById('sifreSite')
 window.copyText=function(text){navigator.clipboard.writeText(text).then(()=>showToast('Kopyalandı ✓'));};
 window.togglePass=function(btn,pass){const row=btn.closest('.pw-item');const site=row.querySelector('.pw-site');if(btn.dataset.showing==='1'){site.textContent=site.dataset.orig;btn.dataset.showing='';}else{site.dataset.orig=site.textContent;site.textContent=pass;btn.dataset.showing='1';setTimeout(()=>{site.textContent=site.dataset.orig;btn.dataset.showing='';},5000);}};
 window.delDoc=async function(col,id){if(!confirm('Sil?'))return;await deleteDoc(doc(db,col,id));showToast('Silindi');};
+
+// DOVIZ
+let dovizRates={},dovizPrev={};
+const CURRENCIES=[
+  {id:'tl',code:'TRY',name:'Turk Lirasi',flag:'🇹🇷',sym:'₺',color:'var(--red)'},
+  {id:'usd',code:'USD',name:'Amerikan Dolari',flag:'🇺🇸',sym:'$',color:'var(--green)'},
+  {id:'thb',code:'THB',name:'Tayland Bahti',flag:'🇹🇭',sym:'฿',color:'var(--blue)'},
+  {id:'php',code:'PHP',name:'Filipin Pesosu',flag:'🇵🇭',sym:'₱',color:'var(--purple)'}
+];
+async function fetchDoviz(){
+  try{
+    const res=await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+    const data=await res.json();
+    const r=data.rates;
+    dovizRates={TRY:r.TRY,THB:r.THB,PHP:r.PHP,USD:1};
+    const y2=new Date();y2.setDate(y2.getDate()-1);
+    const ys=y2.getFullYear()+'-'+String(y2.getMonth()+1).padStart(2,'0')+'-'+String(y2.getDate()).padStart(2,'0');
+    try{const r2=await fetch('https://api.exchangerate-api.com/v4/'+ys+'/USD');const d2=await r2.json();dovizPrev={TRY:d2.rates.TRY,THB:d2.rates.THB,PHP:d2.rates.PHP};}catch(e){}
+    renderDovizCards();
+    document.getElementById('dovizTime').textContent='Guncellendi: '+new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+  }catch(e){const el=document.getElementById('dovizTime');if(el)el.textContent='Baglanti hatasi';}
+}
+function changePct(curr,prev){if(!prev)return '';const p=(curr-prev)/prev*100;if(Math.abs(p)<0.01)return '';return p>0?'<span style="color:var(--green);font-size:9px">up +'+p.toFixed(2)+'%</span>':'<span style="color:var(--red);font-size:9px">dn '+p.toFixed(2)+'%</span>';}
+function renderDovizCards(){
+  const r=dovizRates,p=dovizPrev;
+  document.getElementById('dovizCards').innerHTML=CURRENCIES.map(c=>{
+    const rateVsTL=c.code==='TRY'?'Baz Para':c.code==='USD'?'1₺ = '+(1/r.TRY).toFixed(4)+'$':c.code==='THB'?'1₺ = '+(r.THB/r.TRY).toFixed(4)+'฿':'1₺ = '+(r.PHP/r.TRY).toFixed(4)+'₱';
+    const prevRate=c.code==='TRY'?null:c.code==='USD'?1/p.TRY:c.code==='THB'?p.THB/p.TRY:p.PHP/p.TRY;
+    const currRate=c.code==='TRY'?null:c.code==='USD'?1/r.TRY:c.code==='THB'?r.THB/r.TRY:r.PHP/r.TRY;
+    const pct=currRate&&prevRate?changePct(currRate,prevRate):'';
+    return '<div style="padding:14px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px">'+
+      '<span style="font-size:22px">'+c.flag+'</span>'+
+      '<div style="flex:1">'+
+        '<div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;font-weight:600;color:'+c.color+'">'+c.code+'</span>'+pct+'</div>'+
+        '<div style="font-size:10px;color:var(--text3)">'+rateVsTL+'</div>'+
+      '</div>'+
+      '<div style="display:flex;align-items:center;gap:6px">'+
+        '<span style="font-size:18px;color:var(--text3)">'+c.sym+'</span>'+
+        '<input type="number" id="dinput-'+c.id+'" placeholder="0" inputmode="decimal" oninput="dovizConvert(''+c.code+'')" style="background:transparent;border:none;outline:none;color:var(--text);font-family:DM Mono,monospace;font-size:22px;font-weight:600;width:120px;text-align:right">'+
+      '</div>'+
+    '</div>';
+  }).join('');
+  document.getElementById('crossRates').innerHTML=[
+    {l:'1 USD',v:r.TRY?.toFixed(2)+' ₺'},
+    {l:'1 USD',v:r.THB?.toFixed(2)+' ฿'},
+    {l:'1 USD',v:r.PHP?.toFixed(2)+' ₱'},
+    {l:'1 THB',v:(r.PHP/r.THB)?.toFixed(4)+' ₱'},
+    {l:'1 ₺',v:(r.THB/r.TRY)?.toFixed(4)+' ฿'},
+    {l:'1 ₺',v:(r.PHP/r.TRY)?.toFixed(4)+' ₱'}
+  ].map(x=>'<div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px"><div style="font-size:10px;color:var(--text3);margin-bottom:4px">'+x.l+' =</div><div style="font-family:Cormorant Garamond,serif;font-size:16px;font-weight:600">'+x.v+'</div></div>').join('');
+}
+window.dovizConvert=function(sourceCode){
+  const r=dovizRates;if(!r.TRY)return;
+  const idMap={TRY:'tl',USD:'usd',THB:'thb',PHP:'php'};
+  const sid='dinput-'+idMap[sourceCode];
+  const val=parseFloat(document.getElementById(sid).value);
+  if(isNaN(val)||document.getElementById(sid).value===''){CURRENCIES.forEach(c=>{if(c.code!==sourceCode){const el=document.getElementById('dinput-'+c.id);if(el)el.value='';}});return;}
+  let usd=sourceCode==='USD'?val:sourceCode==='TRY'?val/r.TRY:sourceCode==='THB'?val/r.THB:val/r.PHP;
+  CURRENCIES.forEach(c=>{
+    if(c.code===sourceCode)return;
+    const el=document.getElementById('dinput-'+c.id);if(!el)return;
+    let out=c.code==='USD'?usd:c.code==='TRY'?usd*r.TRY:c.code==='THB'?usd*r.THB:usd*r.PHP;
+    el.value=parseFloat(out.toFixed(4)).toString();
+  });
+};
+fetchDoviz();
+setInterval(fetchDoviz,600000);
 document.getElementById('loading').classList.add('hidden');
 </script>
 </body>
