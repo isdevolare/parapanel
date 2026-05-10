@@ -64,18 +64,38 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 
 /* ── BOTTOM NAV ── */
 .bnav{
-  position:fixed;bottom:0;left:0;right:0;height:var(--nav);
-  background:#050810;border-top:1px solid var(--brd);
-  display:flex;align-items:stretch;
+  position:fixed;bottom:0;left:0;right:0;
+  height:calc(64px + env(safe-area-inset-bottom));
+  background:rgba(5,8,16,.92);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid rgba(255,255,255,.06);
+  display:flex;align-items:flex-start;
   padding-bottom:env(safe-area-inset-bottom);
   z-index:50;
 }
-.ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 0;cursor:pointer;position:relative;transition:all .2s}
-.ni-ic{font-size:20px;line-height:1;transition:transform .2s}
-.ni-lb{font-size:10px;font-weight:500;color:var(--t3);transition:color .2s;letter-spacing:.2px}
-.ni.on .ni-lb{color:var(--gold)}
-.ni.on .ni-ic{transform:scale(1.1)}
-.ni.on::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:28px;height:2px;background:var(--gold);border-radius:0 0 3px 3px}
+.ni{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:5px;padding:12px 0 0;cursor:pointer;position:relative;transition:all .25s;
+  -webkit-tap-highlight-color:transparent;
+}
+.ni-ic{
+  width:44px;height:32px;display:flex;align-items:center;justify-content:center;
+  border-radius:16px;transition:all .25s;
+}
+.ni.on .ni-ic{
+  background:rgba(212,168,67,.14);
+}
+.ni-ic svg{transition:all .25s;stroke:var(--t3);fill:none;}
+.ni.on .ni-ic svg{stroke:var(--gold);}
+.ni-lb{font-size:10px;font-weight:500;color:var(--t3);transition:color .25s;letter-spacing:.3px}
+.ni.on .ni-lb{color:var(--gold);font-weight:600}
+.ni.on::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:32px;height:2.5px;
+  background:linear-gradient(90deg,rgba(212,168,67,.4),var(--gold),rgba(212,168,67,.4));
+  border-radius:0 0 4px 4px;
+  box-shadow:0 0 8px rgba(212,168,67,.5);
+}
 
 /* ── SECTION TITLES ── */
 .sec-title{font-size:28px;font-weight:600;color:var(--text);letter-spacing:-.2px;margin-bottom:2px}
@@ -378,7 +398,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
         <button class="vt" onclick="setView('takvim',this)">Takvim</button>
         <button class="vt" onclick="setView('istatistik',this)">İstatistik</button>
       </div>
-      <button class="add-btn" onclick="openParaMo()">&#xFE0E;＋ İşlem Ekle</button>
+      <button class="add-btn" onclick="openParaMo()">＋ İşlem Ekle</button>
       <div id="pListe"></div>
       <div id="pTakvim" style="display:none"></div>
       <div id="pIstat" style="display:none"></div>
@@ -387,7 +407,6 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
     <div class="panel" id="tab-borclar">
       <div class="sec-title">Borçlar</div>
       <div class="sec-sub">Banka &amp; Kart Takibi</div>
-      <!-- Hero: Toplam Borç -->
       <div class="sc hero" style="margin-bottom:8px">
         <div class="sl">Toplam Borç</div>
         <div class="sv red" id="totBorc">0 TL</div>
@@ -411,7 +430,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
           <div style="display:flex;align-items:center;gap:8px"><span class="live-dot"></span><span style="font-size:10px;color:var(--t3);letter-spacing:2px;text-transform:uppercase">Canlı Kur</span></div>
           <div style="display:flex;align-items:center;gap:10px">
             <span style="font-size:10px;color:var(--t3)" id="dovizTime">Yükleniyor...</span>
-            <button onclick="loadDoviz()" style="background:var(--bg3);border:1px solid var(--brd);border-radius:8px;padding:5px 12px;color:var(--t2);font-size:12px;cursor:pointer;font-family:inherit;font-weight:500;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--brd)';this.style.color='var(--t2)'">&#x21BB; Yenile</button>
+            <button onclick="loadDoviz()" style="background:var(--bg3);border:1px solid var(--brd);border-radius:8px;padding:5px 12px;color:var(--t2);font-size:12px;cursor:pointer;font-family:inherit;font-weight:500;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--brd)';this.style.color='var(--t2)'">↻ Yenile</button>
           </div>
         </div>
         <div id="dovizRows"></div>
@@ -423,15 +442,35 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
     </div>
   </div>
   <div class="bnav">
-    <div class="ni on" onclick="sw('para',this)"><div class="ni-ic">💰</div><div class="ni-lb">Para</div></div>
-    <div class="ni" onclick="sw('borclar',this)"><div class="ni-ic">💳</div><div class="ni-lb">Borçlar</div></div>
-    <div class="ni" onclick="sw('doviz',this)"><div class="ni-ic">💱</div><div class="ni-lb">Döviz</div></div>
+    <div class="ni on" onclick="sw('para',this)">
+      <div class="ni-ic">
+        <svg width="22" height="22" viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="3"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+        </svg>
+      </div>
+      <div class="ni-lb">Para</div>
+    </div>
+    <div class="ni" onclick="sw('borclar',this)">
+      <div class="ni-ic">
+        <svg width="22" height="22" viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="4" width="22" height="16" rx="3"/><line x1="1" y1="10" x2="23" y2="10"/>
+        </svg>
+      </div>
+      <div class="ni-lb">Borçlar</div>
+    </div>
+    <div class="ni" onclick="sw('doviz',this)">
+      <div class="ni-ic">
+        <svg width="22" height="22" viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><path d="M12 2c-2.76 0-5 4.48-5 10s2.24 10 5 10 5-4.48 5-10S14.76 2 12 2z"/><line x1="2" y1="12" x2="22" y2="12"/>
+        </svg>
+      </div>
+      <div class="ni-lb">Döviz</div>
+    </div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
 
 <!-- ═══ MODALS ═══ -->
-<!-- PARA MODAL -->
 <div class="mo" id="moParaAdd" onclick="closeMoIf(event,'moParaAdd')">
   <div class="md">
     <div class="mh"></div>
@@ -462,7 +501,6 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
     </div>
   </div>
 </div>
-<!-- BANKA MODAL -->
 <div class="mo" id="moBanka" onclick="closeMoIf(event,'moBanka')">
   <div class="md">
     <div class="mh"></div>
