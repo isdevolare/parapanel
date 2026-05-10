@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#050810">
 <title>Panel</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 <style>
@@ -52,7 +52,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
   border-bottom:1px solid var(--brd);
   flex-shrink:0;background:#050810;
 }
-.logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--gold);letter-spacing:.2px}
+.logo{font-size:18px;font-weight:700;color:var(--gold);letter-spacing:.5px;text-transform:uppercase}
 .top-right{text-align:right}
 .greeting{font-size:11px;color:var(--t2);font-weight:400;letter-spacing:.3px}
 .today-str{font-size:11px;color:var(--t3);font-weight:400;margin-top:1px}
@@ -78,7 +78,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 .ni.on::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:28px;height:2px;background:var(--gold);border-radius:0 0 3px 3px}
 
 /* ── SECTION TITLES ── */
-.sec-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--text);letter-spacing:-.2px;margin-bottom:2px}
+.sec-title{font-size:28px;font-weight:600;color:var(--text);letter-spacing:-.2px;margin-bottom:2px}
 .sec-sub{font-size:12px;color:var(--t3);margin-bottom:18px;letter-spacing:.2px}
 
 /* ── CARDS ── */
@@ -102,7 +102,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 }
 .sc:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.4)}
 .sl{font-size:10px;font-weight:600;color:var(--t3);letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px}
-.sv{font-size:26px;font-weight:700;letter-spacing:-.5px;line-height:1.1;font-family:'Cormorant Garamond',serif}
+.sv{font-size:26px;font-weight:700;letter-spacing:-.5px;line-height:1.1;}
 .sv.gold{color:var(--gold)}.sv.red{color:var(--red)}.sv.grn{color:var(--grn)}.sv.blu{color:var(--blu)}
 .sc.hero{grid-column:1/-1;background:linear-gradient(135deg,#131822 0%,#1a1f2e 100%);border-color:rgba(212,168,67,.2)}
 .sc.hero .sv{font-size:38px}
@@ -120,7 +120,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 }
 .mbtn:hover{border-color:var(--gold);color:var(--gold)}
 .mbtn:active{transform:scale(.9)}
-.mlbl{font-size:15px;font-weight:600;color:var(--text);font-family:'Cormorant Garamond',serif;font-size:17px}
+.mlbl{font-size:17px;font-weight:600;color:var(--text)}
 
 /* ── VIEW TABS ── */
 .vtabs{display:flex;gap:3px;margin-bottom:14px;background:var(--bg3);border-radius:12px;padding:4px}
@@ -148,7 +148,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 .ii{flex:1;min-width:0}
 .in{font-size:14px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
 .im{font-size:11px;color:var(--t3);display:flex;align-items:center;gap:5px;flex-wrap:wrap}
-.ia{font-size:16px;font-weight:700;flex-shrink:0;letter-spacing:-.3px;font-family:'Cormorant Garamond',serif}
+.ia{font-size:16px;font-weight:700;flex-shrink:0;letter-spacing:-.3px;}
 .ia.red{color:var(--red)}.ia.grn{color:var(--grn)}.ia.blu{color:var(--blu)}.ia.gold{color:var(--gold)}
 
 /* ── CAT ICON ── */
@@ -164,9 +164,9 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 /* ── DAY GROUP ── */
 .dg{margin-bottom:14px}
 .dh{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--brd)}
-.dn{font-size:24px;font-weight:700;color:var(--text);font-family:'Cormorant Garamond',serif}
+.dn{font-size:24px;font-weight:700;color:var(--text);}
 .dname{font-size:11px;font-weight:500;color:var(--t3);letter-spacing:.5px;margin-left:6px}
-.dtot{font-size:15px;font-weight:700;font-family:'Cormorant Garamond',serif}
+.dtot{font-size:15px;font-weight:700;}
 
 /* ── PROGRESS BAR ── */
 .pb{height:5px;background:var(--bg4);border-radius:3px;overflow:hidden;margin:8px 0 4px}
@@ -189,7 +189,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 .ic-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-d)}
 .ic-btn:active{transform:scale(.9)}
 .bk-body{padding:14px 16px}
-.bk-val{font-size:16px;font-weight:600;letter-spacing:-.2px;font-family:'Cormorant Garamond',serif}
+.bk-val{font-size:16px;font-weight:600;letter-spacing:-.2px;}
 .pay-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500;margin-top:8px}
 .pay-badge.ok{background:var(--grn-d);color:var(--grn)}
 .pay-badge.soon{background:var(--red-d);color:var(--red)}
@@ -201,7 +201,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 .dov-inp{
   background:var(--bg3);border:1px solid var(--brd);border-radius:9px;
   outline:none;color:var(--text);font-size:18px;font-weight:600;width:120px;text-align:right;
-  padding:7px 11px;-webkit-appearance:none;transition:border-color .2s;font-family:'Cormorant Garamond',serif;
+  padding:7px 11px;-webkit-appearance:none;transition:border-color .2s;
 }
 .dov-inp:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-d)}
 .dov-inp::placeholder{color:var(--t3)}
@@ -227,7 +227,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 .md::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:2px}
 .mo.on .md{transform:translateY(0)}
 .mh{width:40px;height:3px;background:var(--brd2);border-radius:2px;margin:0 auto 20px}
-.mt{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--text);letter-spacing:-.2px;margin-bottom:18px}
+.mt{font-size:22px;font-weight:600;color:var(--text);letter-spacing:-.2px;margin-bottom:18px}
 
 /* TYPE TABS */
 .type-tabs{display:flex;gap:3px;margin-bottom:16px;background:var(--bg3);border-radius:12px;padding:4px}
@@ -301,7 +301,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 .cr-item{background:var(--bg3);border:1px solid var(--brd);border-radius:11px;padding:12px 14px;transition:all .2s}
 .cr-item:hover{border-color:var(--brd2)}
 .cr-label{font-size:10px;font-weight:500;color:var(--t3);margin-bottom:4px;letter-spacing:.2px}
-.cr-val{font-size:17px;font-weight:700;color:var(--text);letter-spacing:-.3px;font-family:'Cormorant Garamond',serif}
+.cr-val{font-size:17px;font-weight:700;color:var(--text);letter-spacing:-.3px;}
 
 /* SEP */
 .sep-lbl{
@@ -318,7 +318,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 .loading{position:fixed;inset:0;background:#050810;display:flex;align-items:center;justify-content:center;z-index:500;flex-direction:column;gap:24px}
 .loading.h{display:none}
 .loading-inner{position:relative;display:flex;align-items:center;justify-content:center;width:72px;height:72px}
-.loading-logo{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--gold);position:relative;z-index:1}
+.loading-logo{font-size:20px;font-weight:700;color:var(--gold);position:relative;z-index:1;letter-spacing:.5px}
 .loading-ring{position:absolute;inset:0;border-radius:50%;border:2px solid var(--brd);border-top-color:var(--gold);animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{font-size:10px;font-weight:500;color:var(--t3);letter-spacing:3px;text-transform:uppercase}
@@ -345,7 +345,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 </head>
 <body>
 <div class="loading" id="loading">
-  <div class="loading-inner"><div class="loading-ring"></div><div class="loading-logo">₺</div></div>
+  <div class="loading-inner"><div class="loading-ring"></div><div class="loading-logo">TL</div></div>
   <div class="loading-text">Yükleniyor</div>
 </div>
 
@@ -361,24 +361,24 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
     <!-- PARA -->
     <div class="panel active" id="tab-para">
       <div class="sec-title">Para</div>
-      <div class="sec-sub">Gelir & Gider Takibi</div>
+      <div class="sec-sub">Gelir &amp; Gider Takibi</div>
       <div class="mnav">
         <button class="mbtn" onclick="chgMonth(-1)">‹</button>
         <div class="mlbl" id="monthLbl"></div>
         <button class="mbtn" onclick="chgMonth(1)">›</button>
       </div>
       <div class="sg">
-        <div class="sc"><div class="sl">Gelir</div><div class="sv grn" id="totGelir">₺0</div></div>
-        <div class="sc"><div class="sl">Gider</div><div class="sv red" id="totGider">₺0</div></div>
-        <div class="sc"><div class="sl">Havale</div><div class="sv blu" id="totHavale">₺0</div></div>
-        <div class="sc card-gold"><div class="sl">Net Bakiye</div><div class="sv gold" id="netBakiye">₺0</div></div>
+        <div class="sc"><div class="sl">Gelir</div><div class="sv grn" id="totGelir">0 TL</div></div>
+        <div class="sc"><div class="sl">Gider</div><div class="sv red" id="totGider">0 TL</div></div>
+        <div class="sc"><div class="sl">Havale</div><div class="sv blu" id="totHavale">0 TL</div></div>
+        <div class="sc card-gold"><div class="sl">Net Bakiye</div><div class="sv gold" id="netBakiye">0 TL</div></div>
       </div>
       <div class="vtabs">
         <button class="vt on" onclick="setView('liste',this)">Liste</button>
         <button class="vt" onclick="setView('takvim',this)">Takvim</button>
         <button class="vt" onclick="setView('istatistik',this)">İstatistik</button>
       </div>
-      <button class="add-btn" onclick="openParaMo()">＋ İşlem Ekle</button>
+      <button class="add-btn" onclick="openParaMo()">&#xFE0E;＋ İşlem Ekle</button>
       <div id="pListe"></div>
       <div id="pTakvim" style="display:none"></div>
       <div id="pIstat" style="display:none"></div>
@@ -386,17 +386,18 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
     <!-- BORCLAR -->
     <div class="panel" id="tab-borclar">
       <div class="sec-title">Borçlar</div>
-      <div class="sec-sub">Banka & Kart Takibi</div>
+      <div class="sec-sub">Banka &amp; Kart Takibi</div>
+      <!-- Hero: Toplam Borç -->
       <div class="sc hero" style="margin-bottom:8px">
         <div class="sl">Toplam Borç</div>
-        <div class="sv red" id="totBorc">₺0</div>
+        <div class="sv red" id="totBorc">0 TL</div>
       </div>
       <div class="sg3">
-        <div class="sc"><div class="sl">Kart Borcu</div><div class="sv red" id="totKartBorc">₺0</div></div>
-        <div class="sc"><div class="sl">Avans Borcu</div><div class="sv red" id="totAvansBorc">₺0</div></div>
-        <div class="sc card-gold"><div class="sl">Toplam Limit</div><div class="sv gold" id="totLimit">₺0</div></div>
-        <div class="sc"><div class="sl">Kart Limiti</div><div class="sv blu" id="totKartLimit">₺0</div></div>
-        <div class="sc"><div class="sl">Avans Limiti</div><div class="sv blu" id="totAvansLimit">₺0</div></div>
+        <div class="sc"><div class="sl">Kart Borcu</div><div class="sv red" id="totKartBorc">0 TL</div></div>
+        <div class="sc"><div class="sl">Avans Borcu</div><div class="sv red" id="totAvansBorc">0 TL</div></div>
+        <div class="sc card-gold"><div class="sl">Toplam Limit</div><div class="sv gold" id="totLimit">0 TL</div></div>
+        <div class="sc"><div class="sl">Kart Limiti</div><div class="sv blu" id="totKartLimit">0 TL</div></div>
+        <div class="sc"><div class="sl">Avans Limiti</div><div class="sv blu" id="totAvansLimit">0 TL</div></div>
       </div>
       <button class="add-btn" onclick="openBankaMo()">＋ Banka / Kart Ekle</button>
       <div id="bankalarDiv"></div>
@@ -443,7 +444,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
     <div class="field"><label>Kategori</label><div class="cat-grid" id="catGrid"></div></div>
     <div class="field"><label>Açıklama</label><input type="text" id="pAciklama" placeholder="Örn: Market alışverişi"></div>
     <div class="field2">
-      <div class="field" style="margin-bottom:0"><label>Tutar (₺)</label><input type="text" inputmode="numeric" id="pTutar" placeholder="0" oninput="fmtMoney(this)"></div>
+      <div class="field" style="margin-bottom:0"><label>Tutar (TL)</label><input type="text" inputmode="numeric" id="pTutar" placeholder="0" oninput="fmtMoney(this)"></div>
       <div class="field" style="margin-bottom:0"><label>Tarih</label><input type="date" id="pTarih"></div>
     </div>
     <div class="field"><label>Hesap</label>
@@ -502,7 +503,7 @@ const db=firebase.firestore();
 
 // ── HELPERS ──
 const $ = id => document.getElementById(id);
-const fmt = n => '₺'+Math.round(n||0).toLocaleString('tr-TR');
+const fmt = n => Math.round(n||0).toLocaleString('tr-TR')+' TL';
 const fmtN = n => Math.round(n||0).toLocaleString('tr-TR');
 function fmtMoney(el){
   const raw=el.value.replace(/[^0-9]/g,'');
@@ -542,7 +543,7 @@ function doSw(tab,el){
 // ── PARA ──
 const CATS={
   gelir:[{e:'💼',n:'Maaş'},{e:'💰',n:'Serbest'},{e:'📈',n:'Yatırım'},{e:'🎁',n:'Hediye'},{e:'🏠',n:'Kira G.'},{e:'📦',n:'Satış'},{e:'💸',n:'Transfer'},{e:'➕',n:'Diğer'}],
-  gider:[{e:'🛍️',n:'Market'},{e:'🍽️',n:'Yemek'},{e:'🚗',n:'Ulaşım'},{e:'🏠',n:'Kira'},{e:'💊',n:'Sağlık'},{e:'👗',n:'Giyim'},{e:'🎮',n:'Eğlence'},{e:'📱',n:'Faturalar'},{e:'✈️',n:'Seyahat'},{e:'⛽',n:'Yakıt'},{e:'📚',n:'Eğitim'},{e:'➖',n:'Diğer'}],
+  gider:[{e:'🛒',n:'Market'},{e:'🍽️',n:'Yemek'},{e:'🚗',n:'Ulaşım'},{e:'🏠',n:'Kira'},{e:'💊',n:'Sağlık'},{e:'🛍️',n:'Alışveriş'},{e:'🎮',n:'Eğlence'},{e:'📱',n:'Faturalar'},{e:'✈️',n:'Seyahat'},{e:'⛽',n:'Yakıt'},{e:'📚',n:'Eğitim'},{e:'📋',n:'Diğer'}],
   havale:[{e:'🔄',n:'Transfer'},{e:'💳',n:'Kart Öde'},{e:'👤',n:'Kişiye'},{e:'🏦',n:'Banka'},{e:'➡️',n:'Diğer'}]
 };
 let curTT='gider',selCat='',allPara=[],viewDate=new Date(),curView='liste',editParaId=null;
@@ -684,16 +685,16 @@ db.collection('para').orderBy('ts','desc').onSnapshot(snap=>{
 
 // ── BANKALAR ──
 const HAZIR=[
-  {ad:'Yapı Kredi',e:'🏦',r:'#0066CC'},{ad:'İş Bankası',e:'🏙️',r:'#005CA9'},
-  {ad:'Garanti',e:'\ud83d�',r:'#00A651'},{ad:'Akbank',e:'❤️',r:'#E30613'},
-  {ad:'Ziraat',e:'🌾',r:'#008000'},{ad:'Halkbank',e:'🔵',r:'#003087'},
-  {ad:'Vakıfbank',e:'🟡',r:'#F5A623'},{ad:'Denizbank',e:'🌊',r:'#00A3E0'},
-  {ad:'QNB',e:'💜',r:'#6B0080'},{ad:'TEB',e:'🏢',r:'#003087'},
-  {ad:'Enpara',e:'🟠',r:'#FF6B00'},{ad:'ING',e:'🦁',r:'#FF6600'}
+  {ad:'Yapı Kredi',r:'#0066CC'},{ad:'İş Bankası',r:'#005CA9'},
+  {ad:'Garanti',r:'#00A651'},{ad:'Akbank',r:'#E30613'},
+  {ad:'Ziraat',r:'#008000'},{ad:'Halkbank',r:'#003087'},
+  {ad:'Vakıfbank',r:'#F5A623'},{ad:'Denizbank',r:'#00A3E0'},
+  {ad:'QNB',r:'#6B0080'},{ad:'TEB',r:'#003087'},
+  {ad:'Enpara',r:'#FF6B00'},{ad:'ING',r:'#FF6600'}
 ];
 let allBanka=[],editBankaId=null;
 function initBankaGrid(){
-  $('bankaGrid').innerHTML=HAZIR.map(b=>`<button class="bo${$('bkAdi').value===b.ad?' on':''}" onclick="secBanka('${b.ad}')"><span>${b.e}</span><span>${b.ad}</span></button>`).join('');
+  $('bankaGrid').innerHTML=HAZIR.map(b=>`<button class="bo${$('bkAdi').value===b.ad?' on':''}" onclick="secBanka('${b.ad}')" style="border-left:2px solid ${b.r}"><span>${b.ad}</span></button>`).join('');
   ['bkOdemeGun','avOdemeGun'].forEach(id=>{
     const s=$(id);if(!s)return;
     s.innerHTML='<option value="">Seç...</option>'+Array.from({length:31},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join('');
@@ -762,21 +763,21 @@ function renderBankalar(){
   $('totKartBorc').textContent=fmt(totKB);$('totAvansBorc').textContent=fmt(totAB);$('totBorc').textContent=fmt(totKB+totAB);
   if(!allBanka.length){el.innerHTML='<div class="empty"><div class="empty-ic">🏦</div><p>Banka eklenmedi</p></div>';return;}
   el.innerHTML=allBanka.map(b=>{
-    const hb=HAZIR.find(h=>h.ad===b.ad)||{e:'🏦',r:'#4a90e2'};
+    const hb=HAZIR.find(h=>h.ad===b.ad)||{r:'#4a90e2'};
     const kL=b.kartLimit||0,kK=b.kartKullanilan||0,kR=kL-kK,kP=kL?Math.min(kK/kL*100,100):0;
     const aL=b.avansLimit||0,aK=b.avansKullanilan||0,aR=aL-aK,aP=aL?Math.min(aK/aL*100,100):0;
     const kGun=gunKalan(b.kartOdemeGun),aGun=gunKalan(b.avansOdemeGun);
     return `<div class="bk-card" style="border-left:3px solid ${hb.r}">
       <div class="bk-top">
         <div style="display:flex;align-items:center;gap:10px">
-          <span style="font-size:26px">${hb.e}</span>
+          <div style="width:4px;height:32px;background:${hb.r};border-radius:2px;opacity:.6"></div>
           <div>
             <div class="bk-name">${b.ad}</div>
             ${b.kartPuan?`<div style="font-size:10px;color:var(--gold)">★ ${fmtN(b.kartPuan)} puan</div>`:''}
           </div>
         </div>
         <div class="bk-acts">
-          <button class="ic-btn" onclick="openBankaMo('${b.id}')">✏️</button>
+          <button class="ic-btn" onclick="openBankaMo('${b.id}')">&#9998;&#xFE0F;</button>
         </div>
       </div>
       <div class="bk-body">
@@ -814,7 +815,7 @@ db.collection('bankalar').orderBy('ts').onSnapshot(snap=>{
 // ── DÖVİZ ──
 let dovizLoaded=false,dRates={},dPrev={};
 const DCURR=[
-  {c:'TRY',n:'Türk Lirası',f:'🇹🇷',sym:'₺',color:'var(--text)'},
+  {c:'TRY',n:'Türk Lirası',f:'🇹🇷',sym:'TL',color:'var(--text)'},
   {c:'USD',n:'Amerikan Doları',f:'🇺🇸',sym:'$',color:'var(--grn)'},
   {c:'THB',n:'Tayland Bahtı',f:'🇹🇭',sym:'฿',color:'var(--blu)'},
   {c:'PHP',n:'Filipin Pesosu',f:'🇵🇭',sym:'₱',color:'#a07fd4'}
@@ -851,19 +852,19 @@ function renderDoviz(){
       <span style="font-size:30px">${cu.f}</span>
       <div class="dov-info">
         <div style="font-size:13px;font-weight:600;color:${cu.color}">${cu.c} <span style="color:var(--t3);font-size:11px;font-weight:400">${cu.n}</span></div>
-        ${cu.c!=='TRY'?`<div style="font-size:11px;color:var(--t3)">1 ${cu.c} = <strong style="color:var(--text);font-family:'Cormorant Garamond',serif;font-size:14px">${r.toFixed(4)} ₺</strong></div>${pct}`:'<div style="font-size:11px;color:var(--t3)">Baz para birimi</div>'}
+        ${cu.c!=='TRY'?`<div style="font-size:11px;color:var(--t3)">1 ${cu.c} = <strong style="color:var(--text);font-size:14px">TL ${r.toFixed(4)}</strong></div>${pct}`:'<div style="font-size:11px;color:var(--t3)">Baz para birimi</div>'}
       </div>
       <input class="dov-inp" type="number" id="di_${cu.c}" placeholder="0" inputmode="decimal" oninput="dconv('${cu.c}')">
     </div>`;
   }).join('');
   const r=dRates;
   $('crossRates').innerHTML=[
-    {l:'1 USD =',v:(r.TRY||0).toFixed(4)+' ₺'},
+    {l:'1 USD =',v:(r.TRY||0).toFixed(4)+' TL'},
     {l:'1 USD =',v:(r.THB||0).toFixed(4)+' ฿'},
     {l:'1 USD =',v:(r.PHP||0).toFixed(4)+' ₱'},
-    {l:'1 THB =',v:((r.TRY/r.THB)||0).toFixed(4)+' ₺'},
-    {l:'1 ₺ =',v:((r.THB/r.TRY)||0).toFixed(4)+' ฿'},
-    {l:'1 ₺ =',v:((r.PHP/r.TRY)||0).toFixed(4)+' ₱'}
+    {l:'1 THB =',v:((r.TRY/r.THB)||0).toFixed(4)+' TL'},
+    {l:'1 TL =',v:((r.THB/r.TRY)||0).toFixed(4)+' ฿'},
+    {l:'1 TL =',v:((r.PHP/r.TRY)||0).toFixed(4)+' ₱'}
   ].map(x=>`<div class="cr-item"><div class="cr-label">${x.l}</div><div class="cr-val">${x.v}</div></div>`).join('');
 }
 function dconv(src){
