@@ -220,7 +220,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
     </div>
   </div>
   <div class="content" id="cnt">
-    <div class="panel active" id="tab-para">
+    <div class="panel" id="tab-para">
       <div class="sec-title">Para</div>
       <div class="sec-sub">Gelir &amp; Gider Takibi</div>
       <div class="mnav">
@@ -261,7 +261,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
       <button class="add-btn" onclick="openBankaMo()">&#xFF0B; Banka / Kart Ekle</button>
       <div id="bankalarDiv"></div>
     </div>
-    <div class="panel" id="tab-doviz">
+    <div class="panel active" id="tab-doviz">
       <div class="sec-title">D&#246;viz</div>
       <div class="sec-sub">Canl&#x131; Kur &middot; TL Bazl&#x131;</div>
       <div class="card">
@@ -281,7 +281,13 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
     </div>
   </div>
   <div class="bnav">
-    <div class="ni on" onclick="sw('para',this)">
+    <div class="ni on" onclick="sw('doviz',this)">
+      <div class="ni-ic">
+        <svg width="22" height="22" viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2c-2.76 0-5 4.48-5 10s2.24 10 5 10 5-4.48 5-10S14.76 2 12 2z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+      </div>
+      <div class="ni-lb">D&#246;viz</div>
+    </div>
+    <div class="ni" onclick="sw('para',this)">
       <div class="ni-ic">
         <svg width="22" height="22" viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="3"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
       </div>
@@ -292,12 +298,6 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
         <svg width="22" height="22" viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="3"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
       </div>
       <div class="ni-lb">Bor&#x15F;lar</div>
-    </div>
-    <div class="ni" onclick="sw('doviz',this)">
-      <div class="ni-ic">
-        <svg width="22" height="22" viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2c-2.76 0-5 4.48-5 10s2.24 10 5 10 5-4.48 5-10S14.76 2 12 2z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
-      </div>
-      <div class="ni-lb">D&#246;viz</div>
     </div>
   </div>
 </div>
@@ -437,6 +437,7 @@ function tlRatePrev(c){if(c==='TRY')return 1;if(!dPrev.TRY)return 0;return dPrev
 function renderDoviz(){const rows=$('dovizRows');rows.innerHTML=DCURR.map(cu=>{const r=tlRate(cu.c);const rp=tlRatePrev(cu.c);let pct='';if(rp>0&&cu.c!=='TRY'){const p=((r-rp)/rp)*100;const up=p>0;pct=`<div style="font-size:10px;color:${up?'var(--red)':'var(--grn)'};margin-top:2px">${up?'&#x25B2;':'&#x25BC;'} %${Math.abs(p).toFixed(2)} d&#252;nk&#252; kura g&#246;re</div>`;}return `<div class="dov-row"><span style="font-size:30px">${cu.f}</span><div class="dov-info"><div style="font-size:13px;font-weight:600;color:${cu.color}">${cu.c} <span style="color:var(--t3);font-size:11px;font-weight:400">${cu.n}</span></div>${cu.c!=='TRY'?`<div style="font-size:11px;color:var(--t3)">1 ${cu.c} = <strong style="color:var(--text);font-size:14px">TL ${r.toFixed(4)}</strong></div>${pct}`:'<div style="font-size:11px;color:var(--t3)">Baz para birimi</div>'}</div><input class="dov-inp" type="number" id="di_${cu.c}" placeholder="0" inputmode="decimal" oninput="dconv('${cu.c}')"></div>`;}).join('');const r=dRates;$('crossRates').innerHTML=[{l:'1 USD =',v:(r.TRY||0).toFixed(4)+' TL'},{l:'1 USD =',v:(r.THB||0).toFixed(4)+' &#x0E3F;'},{l:'1 USD =',v:(r.PHP||0).toFixed(4)+' &#x20B1;'},{l:'1 THB =',v:((r.TRY/r.THB)||0).toFixed(4)+' TL'},{l:'1 TL =',v:((r.THB/r.TRY)||0).toFixed(4)+' &#x0E3F;'},{l:'1 TL =',v:((r.PHP/r.TRY)||0).toFixed(4)+' &#x20B1;'}].map(x=>`<div class="cr-item"><div class="cr-label">${x.l}</div><div class="cr-val">${x.v}</div></div>`).join('');}
 function dconv(src){const val=parseFloat($('di_'+src).value);if(isNaN(val)){DCURR.forEach(cu=>{if(cu.c!==src){const el=$('di_'+cu.c);if(el)el.value='';}});return;}let usd=src==='USD'?val:src==='TRY'?val/dRates.TRY:src==='THB'?val/dRates.THB:val/dRates.PHP;DCURR.forEach(cu=>{if(cu.c===src)return;const el=$('di_'+cu.c);if(!el)return;let out=cu.c==='USD'?usd:cu.c==='TRY'?usd*dRates.TRY:cu.c==='THB'?usd*dRates.THB:usd*dRates.PHP;el.value=parseFloat(out.toFixed(4)).toString();});}
 updateMonthLabel();
+loadDoviz();
 $('loading').classList.add('h');
 </script>
 </body>
