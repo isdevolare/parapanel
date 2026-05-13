@@ -197,6 +197,39 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 .empty-ic{font-size:36px;margin-bottom:12px;opacity:.35}
 .empty p{font-size:13px;font-weight:500}
 .divider{height:1px;background:var(--brd);margin:12px 0}
+.wallet-hero{background:linear-gradient(135deg,#1a2030 0%,#131822 50%,#1a1f2e 100%);border:1px solid rgba(212,168,67,.25);border-radius:18px;padding:18px 18px 16px;margin-bottom:14px;box-shadow:0 4px 24px rgba(0,0,0,.4),0 0 0 1px rgba(212,168,67,.05) inset;position:relative;overflow:hidden}
+.wallet-hero::before{content:'';position:absolute;top:-50%;right:-20%;width:60%;height:200%;background:radial-gradient(circle,rgba(212,168,67,.08) 0%,transparent 60%);pointer-events:none}
+.wh-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;position:relative}
+.wh-label{font-size:10px;font-weight:600;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase}
+.wh-tot{font-size:36px;font-weight:700;color:var(--gold);letter-spacing:-1px;line-height:1;margin-bottom:4px;position:relative}
+.wh-sub{font-size:11px;color:var(--t3);position:relative}
+.wallet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:14px;position:relative}
+.wi{background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:12px;padding:11px 12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px}
+.wi:hover{border-color:var(--gold-b);background:rgba(212,168,67,.05);transform:translateY(-1px)}
+.wi:active{transform:scale(.98)}
+.wi-flag{font-size:22px;line-height:1}
+.wi-mid{flex:1;min-width:0}
+.wi-amt{font-size:14px;font-weight:700;color:var(--text);letter-spacing:-.2px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wi-tl{font-size:10px;color:var(--t3);margin-top:2px;letter-spacing:.2px}
+.wi-add{background:transparent;border:1.5px dashed var(--gold-b);color:var(--gold);font-weight:600;justify-content:center;font-size:12px;padding:14px 10px}
+.wi-add:hover{background:var(--gold-d);border-color:var(--gold)}
+.qconv{background:var(--bg2);border:1px solid var(--brd);border-radius:14px;padding:14px;margin-bottom:14px;position:sticky;top:0;z-index:5}
+.qc-row{display:flex;align-items:center;gap:8px}
+.qc-side{flex:1;display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--brd);border-radius:11px;padding:8px 10px;transition:border-color .15s}
+.qc-side:focus-within{border-color:var(--gold)}
+.qc-sel{background:transparent;border:none;color:var(--text);font-size:13px;font-weight:600;outline:none;cursor:pointer;font-family:inherit;padding:2px 4px}
+.qc-sel option{background:#0f1520}
+.qc-inp{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:16px;font-weight:600;text-align:right;width:0;min-width:0;font-family:inherit;-webkit-appearance:none}
+.qc-inp::placeholder{color:var(--t3)}
+.qc-swap{width:34px;height:34px;border-radius:50%;background:var(--gold-d);border:1px solid var(--gold-b);color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:all .2s}
+.qc-swap:hover{background:var(--gold);color:#0a0e14;transform:rotate(180deg)}
+.spark{display:inline-block;vertical-align:middle;margin-left:8px}
+.empty-cta{margin-top:14px;padding:10px 22px;background:var(--gold);color:#0a0e14;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.empty-cta:hover{background:#c49a38;transform:translateY(-1px)}
+.empty-cta:active{transform:scale(.97)}
+.delta{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle}
+.delta.up{background:var(--grn-d);color:var(--grn)}
+.delta.dn{background:var(--red-d);color:var(--red)}
 </style>
 </head>
 <body>
@@ -220,7 +253,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
     </div>
   </div>
   <div class="content" id="cnt">
-    <div class="panel active" id="tab-para">
+    <div class="panel" id="tab-para">
       <div class="sec-title">Para</div>
       <div class="sec-sub">Gelir &amp; Gider Takibi</div>
       <div class="mnav">
@@ -232,7 +265,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
         <div class="sc"><div class="sl">Gelir</div><div class="sv grn" id="totGelir">0 TL</div></div>
         <div class="sc"><div class="sl">Gider</div><div class="sv red" id="totGider">0 TL</div></div>
         <div class="sc"><div class="sl">Havale</div><div class="sv blu" id="totHavale">0 TL</div></div>
-        <div class="sc card-gold"><div class="sl">Net Bakiye</div><div class="sv gold" id="netBakiye">0 TL</div></div>
+        <div class="sc card-gold"><div class="sl">Net Bakiye</div><div style="display:flex;align-items:center;justify-content:space-between"><div class="sv gold" id="netBakiye">0 TL</div><div id="netSpark"></div></div></div>
       </div>
       <div class="vtabs">
         <button class="vt on" onclick="setView('liste',this)">Liste</button>
@@ -261,9 +294,32 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
       <button class="add-btn" onclick="openBankaMo()">&#xFF0B; Banka / Kart Ekle</button>
       <div id="bankalarDiv"></div>
     </div>
-    <div class="panel" id="tab-doviz">
+    <div class="panel active" id="tab-doviz">
       <div class="sec-title">D&#246;viz</div>
-      <div class="sec-sub">Canl&#x131; Kur &middot; TL Bazl&#x131;</div>
+      <div class="sec-sub">C&#252;zdan &middot; Canl&#x131; Kur &middot; &#xC7;evirici</div>
+      <div class="wallet-hero">
+        <div class="wh-top">
+          <div class="wh-label">C&#252;zdan Toplam</div>
+          <div style="display:flex;align-items:center;gap:6px"><span class="live-dot"></span><span style="font-size:9px;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase">Canl&#x131;</span></div>
+        </div>
+        <div class="wh-tot" id="wTotal">0 TL</div>
+        <div class="wh-sub" id="wSub">Varl&#x131;klar&#x131;n TL kar&#x15F;&#x131;l&#x131;&#x11F;&#x131;</div>
+        <div class="wallet-grid" id="walletGrid"></div>
+      </div>
+      <div class="qconv">
+        <div class="sl" style="margin-bottom:10px">H&#x131;zl&#x131; &#xC7;evirici</div>
+        <div class="qc-row">
+          <div class="qc-side">
+            <select class="qc-sel" id="qcFrom" onchange="qConv('from')"></select>
+            <input class="qc-inp" id="qcFromInp" type="text" inputmode="decimal" placeholder="0" oninput="qConv('from')">
+          </div>
+          <button class="qc-swap" onclick="qSwap()" aria-label="swap">&#x21C4;</button>
+          <div class="qc-side">
+            <select class="qc-sel" id="qcTo" onchange="qConv('from')"></select>
+            <input class="qc-inp" id="qcToInp" type="text" inputmode="decimal" placeholder="0" oninput="qConv('to')">
+          </div>
+        </div>
+      </div>
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
           <div style="display:flex;align-items:center;gap:8px"><span class="live-dot"></span><span style="font-size:10px;color:var(--t3);letter-spacing:2px;text-transform:uppercase">Canl&#x131; Kur</span></div>
@@ -281,7 +337,13 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
     </div>
   </div>
   <div class="bnav">
-    <div class="ni on" onclick="sw('para',this)">
+    <div class="ni on" onclick="sw('doviz',this)">
+      <div class="ni-ic">
+        <svg width="22" height="22" viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2c-2.76 0-5 4.48-5 10s2.24 10 5 10 5-4.48 5-10S14.76 2 12 2z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+      </div>
+      <div class="ni-lb">D&#246;viz</div>
+    </div>
+    <div class="ni" onclick="sw('para',this)">
       <div class="ni-ic">
         <svg width="22" height="22" viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="3"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
       </div>
@@ -292,12 +354,6 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
         <svg width="22" height="22" viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="3"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
       </div>
       <div class="ni-lb">Bor&#x15F;lar</div>
-    </div>
-    <div class="ni" onclick="sw('doviz',this)">
-      <div class="ni-ic">
-        <svg width="22" height="22" viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2c-2.76 0-5 4.48-5 10s2.24 10 5 10 5-4.48 5-10S14.76 2 12 2z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
-      </div>
-      <div class="ni-lb">D&#246;viz</div>
     </div>
   </div>
 </div>
@@ -330,6 +386,27 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
       <button class="btn-s" onclick="closeMo('moParaAdd')">&#x130;ptal</button>
       <button class="btn-d" id="moParaDelBtn" style="display:none" onclick="delParaConfirm()">Sil</button>
       <button class="btn-p" onclick="savePara()">Kaydet</button>
+    </div>
+  </div>
+</div>
+<div class="mo" id="moCuzdan" onclick="closeMoIf(event,'moCuzdan')">
+  <div class="md" style="max-height:65vh">
+    <div class="mh"></div>
+    <div class="mt" id="moCuzdanTitle">Varl&#x131;k Ekle</div>
+    <div class="field"><label>Para Birimi</label>
+      <select id="cuPara">
+        <option value="TRY">&#x1F1F9;&#x1F1F7; T&#252;rk Liras&#x131; (TRY)</option>
+        <option value="USD">&#x1F1FA;&#x1F1F8; Amerikan Dolar&#x131; (USD)</option>
+        <option value="THB">&#x1F1F9;&#x1F1ED; Tayland Baht&#x131; (THB)</option>
+        <option value="PHP">&#x1F1F5;&#x1F1ED; Filipin Pesosu (PHP)</option>
+      </select>
+    </div>
+    <div class="field"><label>Miktar</label><input type="text" inputmode="decimal" id="cuMiktar" placeholder="0"></div>
+    <div class="field"><label>Etiket (opsiyonel)</label><input type="text" id="cuEtiket" placeholder="&#214;rn: Wise, Nakit, Banka"></div>
+    <div class="mac">
+      <button class="btn-s" onclick="closeMo('moCuzdan')">&#x130;ptal</button>
+      <button class="btn-d" id="moCuzdanDelBtn" style="display:none" onclick="delCuzdanConfirm()">Sil</button>
+      <button class="btn-p" onclick="saveCuzdan()">Kaydet</button>
     </div>
   </div>
 </div>
@@ -381,6 +458,9 @@ const db=firebase.firestore();
 const $ = id => document.getElementById(id);
 const fmt = n => Math.round(n||0).toLocaleString('tr-TR')+' TL';
 const fmtN = n => Math.round(n||0).toLocaleString('tr-TR');
+const _animEls=new WeakMap();
+function animNum(el,target,suffix=' TL',dur=600){if(!el)return;const start=_animEls.get(el)||0;const t0=performance.now();_animEls.set(el,target);if(el._raf)cancelAnimationFrame(el._raf);const tick=t=>{const p=Math.min((t-t0)/dur,1);const eased=1-Math.pow(1-p,3);const v=start+(target-start)*eased;el.textContent=Math.round(v).toLocaleString('tr-TR')+suffix;if(p<1)el._raf=requestAnimationFrame(tick);};el._raf=requestAnimationFrame(tick);}
+function sparkSvg(data,w=72,h=22,col='var(--gold)'){if(!data||data.length<2)return '';const mn=Math.min(...data),mx=Math.max(...data),rng=mx-mn||1;const pts=data.map((v,i)=>`${(i/(data.length-1))*w},${h-((v-mn)/rng)*(h-3)-1.5}`).join(' ');return `<svg class="spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polyline fill="none" stroke="${col}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" points="${pts}"/></svg>`;}
 function fmtMoney(el){const raw=el.value.replace(/[^0-9]/g,'');el.dataset.raw=raw;el.value=raw?parseInt(raw).toLocaleString('tr-TR'):'';}
 function getMv(id){const el=$(id);if(!el)return 0;return parseInt((el.dataset.raw||el.value.replace(/\./g,''))||0)||0;}
 const todayStr=()=>new Date().toISOString().split('T')[0];
@@ -404,9 +484,9 @@ function updateMonthLabel(){$('monthLbl').textContent=viewDate.toLocaleDateStrin
 function chgMonth(d){viewDate=new Date(viewDate.getFullYear(),viewDate.getMonth()+d,1);updateMonthLabel();renderPara();}
 function setView(v,el){curView=v;document.querySelectorAll('.vt').forEach(t=>t.classList.remove('on'));el.classList.add('on');const _vmap={liste:'pListe',takvim:'pTakvim',istatistik:'pIstat'};Object.keys(_vmap).forEach(x=>{$(_vmap[x]).style.display=x===v?'block':'none';});renderPara();}
 function getMonthData(){const y=viewDate.getFullYear(),m=viewDate.getMonth();return allPara.filter(p=>{const d=new Date((p.tarih||'')+'T00:00:00');return d.getFullYear()===y&&d.getMonth()===m;});}
-function renderPara(){const data=getMonthData();const g=data.filter(p=>p.tur==='gelir').reduce((s,p)=>s+p.tutar,0);const gd=data.filter(p=>p.tur==='gider').reduce((s,p)=>s+p.tutar,0);const hv=data.filter(p=>p.tur==='havale').reduce((s,p)=>s+p.tutar,0);$('totGelir').textContent=fmt(g);$('totGider').textContent=fmt(gd);$('totHavale').textContent=fmt(hv);const net=g-gd;const ne=$('netBakiye');ne.textContent=fmt(net);ne.className='sv '+(net>=0?'gold':'red');if(curView==='liste')renderListe(data);else if(curView==='takvim')renderTakvim(data);else renderIstat(data);}
+function renderPara(){const data=getMonthData();const g=data.filter(p=>p.tur==='gelir').reduce((s,p)=>s+p.tutar,0);const gd=data.filter(p=>p.tur==='gider').reduce((s,p)=>s+p.tutar,0);const hv=data.filter(p=>p.tur==='havale').reduce((s,p)=>s+p.tutar,0);animNum($('totGelir'),g);animNum($('totGider'),gd);animNum($('totHavale'),hv);const net=g-gd;const ne=$('netBakiye');animNum(ne,net);ne.className='sv '+(net>=0?'gold':'red');const days={};data.forEach(p=>{const k=p.tarih;if(!days[k])days[k]={g:0,gd:0};if(p.tur==='gelir')days[k].g+=p.tutar;else if(p.tur==='gider')days[k].gd+=p.tutar;});const series=Object.keys(days).sort().map(k=>days[k].g-days[k].gd);let cum=0,trend=series.map(v=>cum+=v);if(trend.length>=2){const sp=$('netSpark');if(sp)sp.innerHTML=sparkSvg(trend,80,24,net>=0?'#34c97e':'#e05252');}else{const sp=$('netSpark');if(sp)sp.innerHTML='';}if(curView==='liste')renderListe(data);else if(curView==='takvim')renderTakvim(data);else renderIstat(data);}
 function catEm(tur,name){const list=CATS[tur]||[];const f=list.find(c=>c.n===name);return f?f.e:'&#x1F4CB;';}
-function renderListe(data){const el=$('pListe');if(!data.length){el.innerHTML='<div class="empty"><div class="empty-ic">&#x1F4B0;</div><p>Bu ay i&#x15F;lem yok</p></div>';return;}const sorted=[...data].sort((a,b)=>new Date(b.tarih)-new Date(a.tarih));el.innerHTML='<div class="card">'+sorted.map(p=>`<div class="ir" onclick="openParaMo('${p.id}')"><div class="cic" style="background:${p.tur==='gelir'?'var(--grn-d)':p.tur==='havale'?'var(--blu-d)':'var(--red-d)'}">${catEm(p.tur,p.kategori)}</div><div class="ii"><div class="in">${p.aciklama}</div><div class="im"><span>${p.tarih}</span><span class="badge ${p.tur==='gelir'?'grn':p.tur==='havale'?'blu':'red'}">${p.kategori||p.tur}</span>${p.hesap?`<span>${p.hesap}</span>`:''}</div></div><div class="ia ${p.tur==='gelir'?'grn':p.tur==='havale'?'blu':'red'}">${p.tur==='gider'?'&#x2212;':'+'}${fmt(p.tutar)}</div></div>`).join('')+'</div>';}
+function renderListe(data){const el=$('pListe');if(!data.length){el.innerHTML='<div class="empty"><div class="empty-ic">&#x1F4B0;</div><p>Bu ay i&#x15F;lem yok</p><button class="empty-cta" onclick="openParaMo()">+ &#x130;lk &#x130;&#x15F;lemi Ekle</button></div>';return;}const sorted=[...data].sort((a,b)=>new Date(b.tarih)-new Date(a.tarih));el.innerHTML='<div class="card">'+sorted.map(p=>`<div class="ir" onclick="openParaMo('${p.id}')"><div class="cic" style="background:${p.tur==='gelir'?'var(--grn-d)':p.tur==='havale'?'var(--blu-d)':'var(--red-d)'}">${catEm(p.tur,p.kategori)}</div><div class="ii"><div class="in">${p.aciklama}</div><div class="im"><span>${p.tarih}</span><span class="badge ${p.tur==='gelir'?'grn':p.tur==='havale'?'blu':'red'}">${p.kategori||p.tur}</span>${p.hesap?`<span>${p.hesap}</span>`:''}</div></div><div class="ia ${p.tur==='gelir'?'grn':p.tur==='havale'?'blu':'red'}">${p.tur==='gider'?'&#x2212;':'+'}${fmt(p.tutar)}</div></div>`).join('')+'</div>';}
 function renderTakvim(data){const el=$('pTakvim');if(!data.length){el.innerHTML='<div class="empty"><div class="empty-ic">&#x1F4C5;</div><p>Bu ay i&#x15F;lem yok</p></div>';return;}const grp={};data.forEach(p=>{if(!grp[p.tarih])grp[p.tarih]=[];grp[p.tarih].push(p);});const sorted=Object.keys(grp).sort((a,b)=>b.localeCompare(a));el.innerHTML=sorted.map(date=>{const items=grp[date];const dayNet=items.reduce((s,p)=>p.tur==='gelir'?s+p.tutar:p.tur==='gider'?s-p.tutar:s,0);const d=new Date(date+'T00:00:00');const dname=d.toLocaleDateString('tr-TR',{weekday:'short'}).toUpperCase();return `<div class="dg"><div class="dh"><div style="display:flex;align-items:baseline;gap:8px"><span class="dn">${d.getDate()}</span><span class="dname">${dname}</span></div><span class="dtot" style="color:${dayNet>=0?'var(--grn)':'var(--red)'}">${dayNet>=0?'+':''}${fmt(dayNet)}</span></div><div class="card" style="padding:0 16px;margin-top:6px">${items.map(p=>`<div class="ir" onclick="openParaMo('${p.id}')"><div class="cic" style="background:${p.tur==='gelir'?'var(--grn-d)':p.tur==='havale'?'var(--blu-d)':'var(--red-d)'}">${catEm(p.tur,p.kategori)}</div><div class="ii"><div class="in">${p.aciklama}</div><div class="im">${p.hesap?`<span>${p.hesap}</span>`:''}<span class="badge ${p.tur==='gelir'?'grn':p.tur==='havale'?'blu':'red'}">${p.kategori||p.tur}</span></div></div><div class="ia ${p.tur==='gelir'?'grn':p.tur==='havale'?'blu':'red'}">${p.tur==='gider'?'&#x2212;':'+'}${fmt(p.tutar)}</div></div>`).join('')}</div></div>`;}).join('');}
 const ICLRS=['#e05252','#d4a843','#34c97e','#4a90e2','#9b7fd4','#e0845b','#5bc4d5','#aaa'];
 function renderIstat(data){const el=$('pIstat');if(!data.length){el.innerHTML='<div class="empty"><div class="empty-ic">&#x1F4CA;</div><p>Bu ay i&#x15F;lem yok</p></div>';return;}const catT={};data.filter(p=>p.tur==='gider').forEach(p=>{const k=p.kategori||'Di&#x11F;er';catT[k]=(catT[k]||0)+p.tutar;});const gTot=Object.values(catT).reduce((s,v)=>s+v,0);const sorted=Object.entries(catT).sort((a,b)=>b[1]-a[1]);const hesT={};data.forEach(p=>{const h=p.hesap||'Di&#x11F;er';if(!hesT[h])hesT[h]={g:0,gd:0};if(p.tur==='gelir')hesT[h].g+=p.tutar;if(p.tur==='gider')hesT[h].gd+=p.tutar;});el.innerHTML=`<div class="card"><div class="sl" style="margin-bottom:10px">Gider Kategorileri</div><div class="istat-bar">${sorted.map(([,v],i)=>`<div style="width:${gTot?v/gTot*100:0}%;background:${ICLRS[i%ICLRS.length]};height:100%"></div>`).join('')}</div>${sorted.map(([k,v],i)=>`<div class="isi"><div style="width:10px;height:10px;border-radius:50%;background:${ICLRS[i%ICLRS.length]};flex-shrink:0"></div><div style="flex:1"><div style="font-size:12px">${catEm('gider',k)} ${k}</div><div style="font-size:10px;color:var(--t3)">${gTot?(v/gTot*100).toFixed(1):0}%</div></div><div class="ia red" style="font-size:18px">${fmt(v)}</div></div>`).join('')}</div><div class="card"><div class="sl" style="margin-bottom:10px">Hesap Baz&#x131;nda</div>${Object.entries(hesT).map(([h,v])=>`<div class="isi"><div style="flex:1;font-size:12px">${h}</div><div style="display:flex;gap:12px"><span class="ia grn" style="font-size:16px">+${fmt(v.g)}</span><span class="ia red" style="font-size:16px">&#x2212;${fmt(v.gd)}</span></div></div>`).join('')}</div>`;}
@@ -423,7 +503,7 @@ async function saveBanka(){const ad=$('bkAdi').value.trim();if(!ad){toast('Banka
 async function delBankaConfirm(){if(!confirm('Bu bankayi silmek istiyor musunuz?'))return;try{await db.collection('bankalar').doc(editBankaId).delete();closeMo('moBanka');toast('Silindi');}catch(e){toast('Hata: '+e.message);}}
 function gunKalan(g){if(!g)return null;const t=new Date().getDate();return g>=t?g-t:30-(t-g);}
 function gradientColor(pct){if(pct<=60)return `linear-gradient(90deg,#34c97e,#34c97e)`;if(pct<=80)return `linear-gradient(90deg,#34c97e,#d4a843)`;return `linear-gradient(90deg,#34c97e,#d4a843,#e05252)`;}
-function renderBankalar(){const el=$('bankalarDiv');const totKL=allBanka.reduce((s,b)=>s+(b.kartLimit||0),0);const totAL=allBanka.reduce((s,b)=>s+(b.avansLimit||0),0);const totKB=allBanka.reduce((s,b)=>s+(b.kartKullanilan||0),0);const totAB=allBanka.reduce((s,b)=>s+(b.avansKullanilan||0),0);$('totKartLimit').textContent=fmt(totKL);$('totAvansLimit').textContent=fmt(totAL);$('totLimit').textContent=fmt(totKL+totAL);$('totKartBorc').textContent=fmt(totKB);$('totAvansBorc').textContent=fmt(totAB);$('totBorc').textContent=fmt(totKB+totAB);if(!allBanka.length){el.innerHTML='<div class="empty"><div class="empty-ic">&#x1F3E6;</div><p>Banka eklenmedi</p></div>';return;}el.innerHTML=allBanka.map(b=>{const hb=HAZIR.find(h=>h.ad===b.ad)||{r:'#4a90e2'};const kL=b.kartLimit||0,kK=b.kartKullanilan||0,kR=kL-kK,kP=kL?Math.min(kK/kL*100,100):0;const aL=b.avansLimit||0,aK=b.avansKullanilan||0,aR=aL-aK,aP=aL?Math.min(aK/aL*100,100):0;const kGun=gunKalan(b.kartOdemeGun),aGun=gunKalan(b.avansOdemeGun);return `<div class="bk-card" style="border-left:3px solid ${hb.r}"><div class="bk-top"><div style="display:flex;align-items:center;gap:10px"><div style="width:4px;height:32px;background:${hb.r};border-radius:2px;opacity:.6"></div><div><div class="bk-name">${b.ad}</div>${b.kartPuan?`<div style="font-size:10px;color:var(--gold)">&#x2605; ${fmtN(b.kartPuan)} puan</div>`:''}</div></div><div class="bk-acts"><button class="ic-btn" onclick="openBankaMo('${b.id}')">&#9998;&#xFE0F;</button></div></div><div class="bk-body">${kL?`<div style="margin-bottom:12px"><div style="font-size:9px;color:var(--t3);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">&#x1F4B3; KRED&#x130; KARTI</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:6px"><div style="background:var(--bg3);border-radius:10px;padding:9px 10px"><div style="font-size:8px;color:var(--t3);letter-spacing:1px;margin-bottom:3px">L&#x130;M&#x130;T</div><div class="bk-val" style="color:var(--blu)">${fmt(kL)}</div></div><div style="background:var(--bg3);border-radius:10px;padding:9px 10px"><div style="font-size:8px;color:var(--t3);letter-spacing:1px;margin-bottom:3px">KULLANILAN</div><div class="bk-val" style="color:var(--red)">${fmt(kK)}</div></div><div style="background:var(--bg3);border-radius:10px;padding:9px 10px"><div style="font-size:8px;color:var(--t3);letter-spacing:1px;margin-bottom:3px">KALAN</div><div class="bk-val" style="color:var(--grn)">${fmt(kR)}</div></div></div><div class="pb"><div class="pf" style="width:${kP}%;background:${gradientColor(kP)}"></div></div><div style="font-size:9px;color:var(--t3);text-align:right;margin-bottom:6px">${kP.toFixed(0)}% kullan&#x131;ld&#x131;</div>${b.kartOdemeGun?`<span class="pay-badge ${kGun!==null&&kGun<=5?'soon':'ok'}">&#x1F4C5; Ay&#x131;n ${b.kartOdemeGun}. &middot; ${kGun===0?'Bug&#252;n!':kGun+' g&#252;n'}</span>`:''}<div style="display:flex;gap:6px;margin-top:8px"><button onclick="openHarcamaMo('${b.id}','kart')" style="flex:1;padding:9px;background:var(--red-d);border:1px solid var(--red-b);border-radius:9px;color:var(--red);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s">+ Harcama</button><button onclick="resetBorc('${b.id}','kart')" style="padding:9px 14px;background:var(--grn-d);border:1px solid var(--grn-b);border-radius:9px;color:var(--grn);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s">&#x21BB; S&#x131;f&#x131;rla</button></div></div>`:''}${aL?`<div style="${kL?'border-top:1px solid var(--brd);padding-top:12px':''}"><div style="font-size:9px;color:var(--t3);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">&#x1F4B5; AVANS</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:6px"><div style="background:var(--bg3);border-radius:10px;padding:9px 10px"><div style="font-size:8px;color:var(--t3);letter-spacing:1px;margin-bottom:3px">L&#x130;M&#x130;T</div><div class="bk-val" style="color:var(--blu)">${fmt(aL)}</div></div><div style="background:var(--bg3);border-radius:10px;padding:9px 10px"><div style="font-size:8px;color:var(--t3);letter-spacing:1px;margin-bottom:3px">KULLANILAN</div><div class="bk-val" style="color:var(--red)">${fmt(aK)}</div></div><div style="background:var(--bg3);border-radius:10px;padding:9px 10px"><div style="font-size:8px;color:var(--t3);letter-spacing:1px;margin-bottom:3px">KALAN</div><div class="bk-val" style="color:var(--grn)">${fmt(aR)}</div></div></div><div class="pb"><div class="pf" style="width:${aP}%;background:${gradientColor(aP)}"></div></div><div style="font-size:9px;color:var(--t3);text-align:right;margin-bottom:6px">${aP.toFixed(0)}% kullan&#x131;ld&#x131;</div>${b.avansOdemeGun?`<span class="pay-badge ${aGun!==null&&aGun<=5?'soon':'ok'}">&#x1F4C5; Avans Ay&#x131;n ${b.avansOdemeGun}. &middot; ${aGun===0?'Bug&#252;n!':aGun+' g&#252;n'}</span>`:''}<div style="display:flex;gap:6px;margin-top:8px"><button onclick="openHarcamaMo('${b.id}','avans')" style="flex:1;padding:9px;background:var(--red-d);border:1px solid var(--red-b);border-radius:9px;color:var(--red);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s">+ Harcama</button><button onclick="resetBorc('${b.id}','avans')" style="padding:9px 14px;background:var(--grn-d);border:1px solid var(--grn-b);border-radius:9px;color:var(--grn);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s">&#x21BB; S&#x131;f&#x131;rla</button></div></div>`:''}</div></div>`;}).join('');}
+function renderBankalar(){const el=$('bankalarDiv');const totKL=allBanka.reduce((s,b)=>s+(b.kartLimit||0),0);const totAL=allBanka.reduce((s,b)=>s+(b.avansLimit||0),0);const totKB=allBanka.reduce((s,b)=>s+(b.kartKullanilan||0),0);const totAB=allBanka.reduce((s,b)=>s+(b.avansKullanilan||0),0);animNum($('totKartLimit'),totKL);animNum($('totAvansLimit'),totAL);animNum($('totLimit'),totKL+totAL);animNum($('totKartBorc'),totKB);animNum($('totAvansBorc'),totAB);animNum($('totBorc'),totKB+totAB);if(!allBanka.length){el.innerHTML='<div class="empty"><div class="empty-ic">&#x1F3E6;</div><p>Banka eklenmedi</p><button class="empty-cta" onclick="openBankaMo()">+ &#x130;lk Bankay&#x131; Ekle</button></div>';return;}el.innerHTML=allBanka.map(b=>{const hb=HAZIR.find(h=>h.ad===b.ad)||{r:'#4a90e2'};const kL=b.kartLimit||0,kK=b.kartKullanilan||0,kR=kL-kK,kP=kL?Math.min(kK/kL*100,100):0;const aL=b.avansLimit||0,aK=b.avansKullanilan||0,aR=aL-aK,aP=aL?Math.min(aK/aL*100,100):0;const kGun=gunKalan(b.kartOdemeGun),aGun=gunKalan(b.avansOdemeGun);return `<div class="bk-card" style="border-left:3px solid ${hb.r}"><div class="bk-top"><div style="display:flex;align-items:center;gap:10px"><div style="width:4px;height:32px;background:${hb.r};border-radius:2px;opacity:.6"></div><div><div class="bk-name">${b.ad}</div>${b.kartPuan?`<div style="font-size:10px;color:var(--gold)">&#x2605; ${fmtN(b.kartPuan)} puan</div>`:''}</div></div><div class="bk-acts"><button class="ic-btn" onclick="openBankaMo('${b.id}')">&#9998;&#xFE0F;</button></div></div><div class="bk-body">${kL?`<div style="margin-bottom:12px"><div style="font-size:9px;color:var(--t3);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">&#x1F4B3; KRED&#x130; KARTI</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:6px"><div style="background:var(--bg3);border-radius:10px;padding:9px 10px"><div style="font-size:8px;color:var(--t3);letter-spacing:1px;margin-bottom:3px">L&#x130;M&#x130;T</div><div class="bk-val" style="color:var(--blu)">${fmt(kL)}</div></div><div style="background:var(--bg3);border-radius:10px;padding:9px 10px"><div style="font-size:8px;color:var(--t3);letter-spacing:1px;margin-bottom:3px">KULLANILAN</div><div class="bk-val" style="color:var(--red)">${fmt(kK)}</div></div><div style="background:var(--bg3);border-radius:10px;padding:9px 10px"><div style="font-size:8px;color:var(--t3);letter-spacing:1px;margin-bottom:3px">KALAN</div><div class="bk-val" style="color:var(--grn)">${fmt(kR)}</div></div></div><div class="pb"><div class="pf" style="width:${kP}%;background:${gradientColor(kP)}"></div></div><div style="font-size:9px;color:var(--t3);text-align:right;margin-bottom:6px">${kP.toFixed(0)}% kullan&#x131;ld&#x131;</div>${b.kartOdemeGun?`<span class="pay-badge ${kGun!==null&&kGun<=5?'soon':'ok'}">&#x1F4C5; Ay&#x131;n ${b.kartOdemeGun}. &middot; ${kGun===0?'Bug&#252;n!':kGun+' g&#252;n'}</span>`:''}<div style="display:flex;gap:6px;margin-top:8px"><button onclick="openHarcamaMo('${b.id}','kart')" style="flex:1;padding:9px;background:var(--red-d);border:1px solid var(--red-b);border-radius:9px;color:var(--red);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s">+ Harcama</button><button onclick="resetBorc('${b.id}','kart')" style="padding:9px 14px;background:var(--grn-d);border:1px solid var(--grn-b);border-radius:9px;color:var(--grn);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s">&#x21BB; S&#x131;f&#x131;rla</button></div></div>`:''}${aL?`<div style="${kL?'border-top:1px solid var(--brd);padding-top:12px':''}"><div style="font-size:9px;color:var(--t3);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">&#x1F4B5; AVANS</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:6px"><div style="background:var(--bg3);border-radius:10px;padding:9px 10px"><div style="font-size:8px;color:var(--t3);letter-spacing:1px;margin-bottom:3px">L&#x130;M&#x130;T</div><div class="bk-val" style="color:var(--blu)">${fmt(aL)}</div></div><div style="background:var(--bg3);border-radius:10px;padding:9px 10px"><div style="font-size:8px;color:var(--t3);letter-spacing:1px;margin-bottom:3px">KULLANILAN</div><div class="bk-val" style="color:var(--red)">${fmt(aK)}</div></div><div style="background:var(--bg3);border-radius:10px;padding:9px 10px"><div style="font-size:8px;color:var(--t3);letter-spacing:1px;margin-bottom:3px">KALAN</div><div class="bk-val" style="color:var(--grn)">${fmt(aR)}</div></div></div><div class="pb"><div class="pf" style="width:${aP}%;background:${gradientColor(aP)}"></div></div><div style="font-size:9px;color:var(--t3);text-align:right;margin-bottom:6px">${aP.toFixed(0)}% kullan&#x131;ld&#x131;</div>${b.avansOdemeGun?`<span class="pay-badge ${aGun!==null&&aGun<=5?'soon':'ok'}">&#x1F4C5; Avans Ay&#x131;n ${b.avansOdemeGun}. &middot; ${aGun===0?'Bug&#252;n!':aGun+' g&#252;n'}</span>`:''}<div style="display:flex;gap:6px;margin-top:8px"><button onclick="openHarcamaMo('${b.id}','avans')" style="flex:1;padding:9px;background:var(--red-d);border:1px solid var(--red-b);border-radius:9px;color:var(--red);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s">+ Harcama</button><button onclick="resetBorc('${b.id}','avans')" style="padding:9px 14px;background:var(--grn-d);border:1px solid var(--grn-b);border-radius:9px;color:var(--grn);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s">&#x21BB; S&#x131;f&#x131;rla</button></div></div>`:''}</div></div>`;}).join('');}
 let harcamaCtx=null;
 function openHarcamaMo(id,type){harcamaCtx={id,type};const b=allBanka.find(x=>x.id===id);const tip=type==='kart'?'Kredi Kart&#x131;':'Avans';$('moHarcamaTitle').textContent=tip+' Harcamas&#x131;';$('moHarcamaSub').textContent=(b?b.ad:'')+' &middot; Mevcut bor&#xE7;a eklenecek';$('hTutar').value='';$('hTutar').dataset.raw='';$('hAcik').value='';openMo('moHarcama');}
 async function saveHarcama(){if(!harcamaCtx)return;const amt=getMv('hTutar');if(!amt){toast('Tutar gir');return;}const b=allBanka.find(x=>x.id===harcamaCtx.id);if(!b)return;const field=harcamaCtx.type==='kart'?'kartKullanilan':'avansKullanilan';const newVal=(b[field]||0)+amt;try{await db.collection('bankalar').doc(harcamaCtx.id).update({[field]:newVal});closeMo('moHarcama');toast('+'+fmt(amt)+' eklendi');}catch(e){toast('Hata: '+e.message);}}
@@ -431,12 +511,26 @@ async function resetBorc(id,type){const tip=type==='kart'?'Kredi kart&#x131;':'A
 db.collection('bankalar').orderBy('ts').onSnapshot(snap=>{allBanka=snap.docs.map(d=>({id:d.id,...d.data()}));renderBankalar();});
 let dovizLoaded=false,dRates={},dPrev={};
 const DCURR=[{c:'TRY',n:'T&#252;rk Liras&#x131;',f:'&#x1F1F9;&#x1F1F7;',sym:'TL',color:'var(--text)'},{c:'USD',n:'Amerikan Dolar&#x131;',f:'&#x1F1FA;&#x1F1F8;',sym:'$',color:'var(--grn)'},{c:'THB',n:'Tayland Baht&#x131;',f:'&#x1F1F9;&#x1F1ED;',sym:'&#x0E3F;',color:'var(--blu)'},{c:'PHP',n:'Filipin Pesosu',f:'&#x1F1F5;&#x1F1ED;',sym:'&#x20B1;',color:'#a07fd4'}];
-async function loadDoviz(){dovizLoaded=true;$('dovizTime').textContent='Y&#252;kleniyor...';try{const r=await fetch('https://api.exchangerate-api.com/v4/latest/USD');const d=await r.json();dRates={USD:1,TRY:d.rates.TRY,THB:d.rates.THB,PHP:d.rates.PHP};const yd=new Date();yd.setDate(yd.getDate()-1);const yds=yd.getFullYear()+'-'+String(yd.getMonth()+1).padStart(2,'0')+'-'+String(yd.getDate()).padStart(2,'0');try{const r2=await fetch('https://api.exchangerate-api.com/v4/'+yds+'/USD');const d2=await r2.json();dPrev={USD:1,TRY:d2.rates.TRY,THB:d2.rates.THB,PHP:d2.rates.PHP};}catch(e){}$('dovizTime').textContent='G&#252;ncellendi: '+new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});renderDoviz();}catch(e){$('dovizTime').textContent='Ba&#x11F;lant&#x131; hatas&#x131;';}}
+async function loadDoviz(){dovizLoaded=true;$('dovizTime').textContent='Y&#252;kleniyor...';try{const r=await fetch('https://api.exchangerate-api.com/v4/latest/USD');const d=await r.json();dRates={USD:1,TRY:d.rates.TRY,THB:d.rates.THB,PHP:d.rates.PHP};const yd=new Date();yd.setDate(yd.getDate()-1);const yds=yd.getFullYear()+'-'+String(yd.getMonth()+1).padStart(2,'0')+'-'+String(yd.getDate()).padStart(2,'0');try{const r2=await fetch('https://api.exchangerate-api.com/v4/'+yds+'/USD');const d2=await r2.json();dPrev={USD:1,TRY:d2.rates.TRY,THB:d2.rates.THB,PHP:d2.rates.PHP};}catch(e){}$('dovizTime').textContent='G&#252;ncellendi: '+new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});renderDoviz();renderCuzdan();}catch(e){$('dovizTime').textContent='Ba&#x11F;lant&#x131; hatas&#x131;';}}
 function tlRate(c){if(c==='TRY')return 1;return dRates.TRY/dRates[c];}
 function tlRatePrev(c){if(c==='TRY')return 1;if(!dPrev.TRY)return 0;return dPrev.TRY/dPrev[c];}
 function renderDoviz(){const rows=$('dovizRows');rows.innerHTML=DCURR.map(cu=>{const r=tlRate(cu.c);const rp=tlRatePrev(cu.c);let pct='';if(rp>0&&cu.c!=='TRY'){const p=((r-rp)/rp)*100;const up=p>0;pct=`<div style="font-size:10px;color:${up?'var(--red)':'var(--grn)'};margin-top:2px">${up?'&#x25B2;':'&#x25BC;'} %${Math.abs(p).toFixed(2)} d&#252;nk&#252; kura g&#246;re</div>`;}return `<div class="dov-row"><span style="font-size:30px">${cu.f}</span><div class="dov-info"><div style="font-size:13px;font-weight:600;color:${cu.color}">${cu.c} <span style="color:var(--t3);font-size:11px;font-weight:400">${cu.n}</span></div>${cu.c!=='TRY'?`<div style="font-size:11px;color:var(--t3)">1 ${cu.c} = <strong style="color:var(--text);font-size:14px">TL ${r.toFixed(4)}</strong></div>${pct}`:'<div style="font-size:11px;color:var(--t3)">Baz para birimi</div>'}</div><input class="dov-inp" type="number" id="di_${cu.c}" placeholder="0" inputmode="decimal" oninput="dconv('${cu.c}')"></div>`;}).join('');const r=dRates;$('crossRates').innerHTML=[{l:'1 USD =',v:(r.TRY||0).toFixed(4)+' TL'},{l:'1 USD =',v:(r.THB||0).toFixed(4)+' &#x0E3F;'},{l:'1 USD =',v:(r.PHP||0).toFixed(4)+' &#x20B1;'},{l:'1 THB =',v:((r.TRY/r.THB)||0).toFixed(4)+' TL'},{l:'1 TL =',v:((r.THB/r.TRY)||0).toFixed(4)+' &#x0E3F;'},{l:'1 TL =',v:((r.PHP/r.TRY)||0).toFixed(4)+' &#x20B1;'}].map(x=>`<div class="cr-item"><div class="cr-label">${x.l}</div><div class="cr-val">${x.v}</div></div>`).join('');}
 function dconv(src){const val=parseFloat($('di_'+src).value);if(isNaN(val)){DCURR.forEach(cu=>{if(cu.c!==src){const el=$('di_'+cu.c);if(el)el.value='';}});return;}let usd=src==='USD'?val:src==='TRY'?val/dRates.TRY:src==='THB'?val/dRates.THB:val/dRates.PHP;DCURR.forEach(cu=>{if(cu.c===src)return;const el=$('di_'+cu.c);if(!el)return;let out=cu.c==='USD'?usd:cu.c==='TRY'?usd*dRates.TRY:cu.c==='THB'?usd*dRates.THB:usd*dRates.PHP;el.value=parseFloat(out.toFixed(4)).toString();});}
+let allCuzdan=[],editCuzdanId=null;
+const CURRMAP={TRY:{f:'🇹🇷',n:'TL',sym:'TL'},USD:{f:'🇺🇸',n:'USD',sym:'$'},THB:{f:'🇹🇭',n:'THB',sym:'฿'},PHP:{f:'🇵🇭',n:'PHP',sym:'₱'}};
+function cuzdanTL(c,m){if(!dRates.TRY)return 0;if(c==='TRY')return m;const usd=c==='USD'?m:m/(dRates[c]||1);return usd*dRates.TRY;}
+function renderCuzdan(){const el=$('walletGrid');if(!el)return;const tot=allCuzdan.reduce((s,c)=>s+cuzdanTL(c.para,c.miktar),0);animNum($('wTotal'),tot,' TL');const cnt=allCuzdan.length;$('wSub').textContent=cnt?`${cnt} varlık · Varlıklarının TL karşılığı`:'Henüz varlık eklenmedi';let html=allCuzdan.map(c=>{const m=CURRMAP[c.para]||{f:'💰',sym:c.para};const tl=cuzdanTL(c.para,c.miktar);const amtStr=c.miktar.toLocaleString('tr-TR',{maximumFractionDigits:2});return `<div class="wi" onclick="openCuzdanMo('${c.id}')"><div class="wi-flag">${m.f}</div><div class="wi-mid"><div class="wi-amt">${m.sym} ${amtStr}</div><div class="wi-tl">${c.etiket?c.etiket+' · ':''}${c.para==='TRY'?'':'≈ '+fmt(tl)}</div></div></div>`;}).join('');html+=`<div class="wi wi-add" onclick="openCuzdanMo()">＋ Varlık Ekle</div>`;el.innerHTML=html;}
+function openCuzdanMo(id=null){editCuzdanId=id;if(id){const c=allCuzdan.find(x=>x.id===id);if(!c)return;$('moCuzdanTitle').textContent='Varlık Düzenle';$('cuPara').value=c.para;$('cuMiktar').value=c.miktar;$('cuEtiket').value=c.etiket||'';$('moCuzdanDelBtn').style.display='';}else{$('moCuzdanTitle').textContent='Varlık Ekle';$('cuPara').value='TRY';$('cuMiktar').value='';$('cuEtiket').value='';$('moCuzdanDelBtn').style.display='none';}openMo('moCuzdan');}
+async function saveCuzdan(){const para=$('cuPara').value;const miktar=parseFloat(($('cuMiktar').value||'').replace(',','.'));const etiket=$('cuEtiket').value.trim();if(!miktar||miktar<=0){toast('Geçerli miktar gir');return;}const data={para,miktar,etiket,ts:Date.now()};try{if(editCuzdanId){await db.collection('cuzdan').doc(editCuzdanId).update(data);}else{await db.collection('cuzdan').add(data);}closeMo('moCuzdan');toast('Kaydedildi ✓');}catch(e){toast('Hata: '+e.message);}}
+async function delCuzdanConfirm(){if(!confirm('Bu varlığı silmek istiyor musunuz?'))return;try{await db.collection('cuzdan').doc(editCuzdanId).delete();closeMo('moCuzdan');toast('Silindi');}catch(e){toast('Hata: '+e.message);}}
+db.collection('cuzdan').orderBy('ts').onSnapshot(snap=>{allCuzdan=snap.docs.map(d=>({id:d.id,...d.data()}));renderCuzdan();});
+function initQConv(){const opts=['TRY','USD','THB','PHP'].map(c=>{const m=CURRMAP[c];return `<option value="${c}">${m.f} ${c}</option>`;}).join('');$('qcFrom').innerHTML=opts;$('qcTo').innerHTML=opts;$('qcFrom').value='USD';$('qcTo').value='TRY';}
+function qcRate(c){if(c==='TRY')return dRates.TRY||1;if(c==='USD')return 1;return 1/(dRates[c]||1);}
+function qConv(side){if(!dRates.TRY)return;const from=$('qcFrom').value,to=$('qcTo').value;const fromInp=$('qcFromInp'),toInp=$('qcToInp');const src=side==='from'?fromInp:toInp,dst=side==='from'?toInp:fromInp;const sCur=side==='from'?from:to,dCur=side==='from'?to:from;const val=parseFloat((src.value||'').replace(',','.'));if(isNaN(val)){dst.value='';return;}const usd=val*qcRate(sCur);const out=usd/qcRate(dCur);dst.value=parseFloat(out.toFixed(4)).toString();}
+function qSwap(){const f=$('qcFrom').value;$('qcFrom').value=$('qcTo').value;$('qcTo').value=f;const fv=$('qcFromInp').value;$('qcFromInp').value=$('qcToInp').value;$('qcToInp').value=fv;qConv('from');}
+initQConv();
 updateMonthLabel();
+loadDoviz();
 $('loading').classList.add('h');
 </script>
 </body>
