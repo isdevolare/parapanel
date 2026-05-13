@@ -48,7 +48,8 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 .top-bar{padding:calc(env(safe-area-inset-top) + 10px) 20px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--brd);flex-shrink:0;background:#050810}
 .logo{font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.5px;text-transform:uppercase;white-space:nowrap}
 .clocks{display:flex;gap:7px;align-items:center}
-.ck{display:flex;align-items:center;gap:5px;background:var(--bg2);border:1px solid var(--brd);border-radius:20px;padding:5px 10px}
+.ck{display:flex;align-items:center;gap:5px;background:var(--bg2);border:1px solid var(--brd);border-radius:20px;padding:5px 10px;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent}
+.ck:hover{border-color:var(--gold-b);background:rgba(212,168,67,.06)}
 .ck-flag{font-size:13px;line-height:1}
 .ck-info{display:flex;flex-direction:column;align-items:flex-end}
 .ck-loc{font-size:8px;color:var(--t3);letter-spacing:.4px;text-transform:uppercase;line-height:1;margin-bottom:1px}
@@ -242,13 +243,13 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
   <div class="top-bar">
     <div class="logo">Para Y&#246;netimi</div>
     <div class="clocks">
-      <div class="ck">
-        <span class="ck-flag">&#x1F1F5;&#x1F1ED;</span>
-        <div class="ck-info"><div class="ck-loc">Manila</div><div class="ck-time" id="ck-manila">--:--</div></div>
+      <div class="ck" id="ck0" onclick="openCkPicker(0)">
+        <span class="ck-flag" id="ck0-flag">&#x1F1F5;&#x1F1ED;</span>
+        <div class="ck-info"><div class="ck-loc" id="ck0-loc">Manila</div><div class="ck-time" id="ck0-time">--:--</div></div>
       </div>
-      <div class="ck">
-        <span class="ck-flag">&#x1F1F9;&#x1F1F7;</span>
-        <div class="ck-info"><div class="ck-loc">&#x130;stanbul</div><div class="ck-time" id="ck-istanbul">--:--</div></div>
+      <div class="ck" id="ck1" onclick="openCkPicker(1)">
+        <span class="ck-flag" id="ck1-flag">&#x1F1F9;&#x1F1F7;</span>
+        <div class="ck-info"><div class="ck-loc" id="ck1-loc">&#x130;stanbul</div><div class="ck-time" id="ck1-time">--:--</div></div>
       </div>
     </div>
   </div>
@@ -389,6 +390,14 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
     </div>
   </div>
 </div>
+<div class="mo" id="moCkPicker" onclick="closeMoIf(event,'moCkPicker')">
+  <div class="md" style="max-height:75vh">
+    <div class="mh"></div>
+    <div class="mt">Saat Se&#xE7;</div>
+    <div style="font-size:11px;color:var(--t3);margin:-10px 0 14px;letter-spacing:.3px">Ba&#x15F;l&#x131;ktaki saat g&#246;sterilecek</div>
+    <div id="ckCityList" style="display:flex;flex-direction:column;gap:4px"></div>
+  </div>
+</div>
 <div class="mo" id="moCuzdan" onclick="closeMoIf(event,'moCuzdan')">
   <div class="md" style="max-height:65vh">
     <div class="mh"></div>
@@ -468,7 +477,37 @@ function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');setTi
 function openMo(id){$(id).classList.add('on');}
 function closeMo(id){$(id).classList.remove('on');}
 function closeMoIf(e,id){if(e.target===$(id))closeMo(id);}
-function updateClocks(){const f=tz=>new Intl.DateTimeFormat('tr-TR',{hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:tz,hour12:false}).format(new Date());$('ck-manila').textContent=f('Asia/Manila');$('ck-istanbul').textContent=f('Europe/Istanbul');}updateClocks();setInterval(updateClocks,1000);
+const CITIES=[
+  {tz:'Asia/Manila',f:'🇵🇭',n:'Manila'},{tz:'Europe/Istanbul',f:'🇹🇷',n:'İstanbul'},
+  {tz:'Europe/London',f:'🇬🇧',n:'Londra'},{tz:'Europe/Berlin',f:'🇩🇪',n:'Berlin'},
+  {tz:'Europe/Paris',f:'🇫🇷',n:'Paris'},{tz:'Europe/Amsterdam',f:'🇳🇱',n:'Amsterdam'},
+  {tz:'Europe/Madrid',f:'🇪🇸',n:'Madrid'},{tz:'Europe/Rome',f:'🇮🇹',n:'Roma'},
+  {tz:'Europe/Moscow',f:'🇷🇺',n:'Moskova'},{tz:'Europe/Warsaw',f:'🇵🇱',n:'Varşova'},
+  {tz:'America/New_York',f:'🇺🇸',n:'New York'},{tz:'America/Chicago',f:'🇺🇸',n:'Chicago'},
+  {tz:'America/Los_Angeles',f:'🇺🇸',n:'Los Angeles'},{tz:'America/Toronto',f:'🇨🇦',n:'Toronto'},
+  {tz:'America/Vancouver',f:'🇨🇦',n:'Vancouver'},{tz:'America/Sao_Paulo',f:'🇧🇷',n:'São Paulo'},
+  {tz:'America/Mexico_City',f:'🇲🇽',n:'Mexico City'},
+  {tz:'Africa/Cairo',f:'🇪🇬',n:'Kahire'},{tz:'Africa/Johannesburg',f:'🇿🇦',n:'Johannesburg'},
+  {tz:'Asia/Dubai',f:'🇦🇪',n:'Dubai'},{tz:'Asia/Riyadh',f:'🇸🇦',n:'Riyad'},
+  {tz:'Asia/Kolkata',f:'🇮🇳',n:'Mumbai'},{tz:'Asia/Bangkok',f:'🇹🇭',n:'Bangkok'},
+  {tz:'Asia/Singapore',f:'🇸🇬',n:'Singapur'},{tz:'Asia/Kuala_Lumpur',f:'🇲🇾',n:'Kuala Lumpur'},
+  {tz:'Asia/Tokyo',f:'🇯🇵',n:'Tokyo'},{tz:'Asia/Seoul',f:'🇰🇷',n:'Seul'},
+  {tz:'Asia/Shanghai',f:'🇨🇳',n:'Şangay'},{tz:'Asia/Hong_Kong',f:'🇭🇰',n:'Hong Kong'},
+  {tz:'Asia/Taipei',f:'🇹🇼',n:'Taipei'},
+  {tz:'Australia/Sydney',f:'🇦🇺',n:'Sidney'},{tz:'Australia/Melbourne',f:'🇦🇺',n:'Melbourne'},
+  {tz:'Pacific/Auckland',f:'🇳🇿',n:'Auckland'},{tz:'Pacific/Honolulu',f:'🇺🇸',n:'Honolulu'},
+];
+let ckSlots=[
+  JSON.parse(localStorage.getItem('ck0')||'null')||{tz:'Asia/Manila',f:'🇵🇭',n:'Manila'},
+  JSON.parse(localStorage.getItem('ck1')||'null')||{tz:'Europe/Istanbul',f:'🇹🇷',n:'İstanbul'}
+];
+let ckPickerSlot=0;
+function fmtTZ(tz){return new Intl.DateTimeFormat('tr-TR',{hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:tz,hour12:false}).format(new Date());}
+function updateClocks(){ckSlots.forEach((c,i)=>{const tEl=$('ck'+i+'-time');if(tEl)tEl.textContent=fmtTZ(c.tz);});}
+function applyCkSlots(){ckSlots.forEach((c,i)=>{const f=$('ck'+i+'-flag'),l=$('ck'+i+'-loc');if(f)f.textContent=c.f;if(l)l.textContent=c.n;});}
+function openCkPicker(slot){ckPickerSlot=slot;const cur=ckSlots[slot];const list=$('ckCityList');list.innerHTML=CITIES.map(c=>{const active=c.tz===cur.tz;const t=fmtTZ(c.tz);return `<div onclick="pickCity('${c.tz}','${c.f}','${c.n}')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;background:${active?'var(--gold-d)':'transparent'};border:1px solid ${active?'var(--gold-b)':'transparent'};cursor:pointer;transition:all .15s"><span style="font-size:22px;line-height:1">${c.f}</span><div style="flex:1"><div style="font-size:14px;font-weight:${active?'600':'400'};color:${active?'var(--gold)':'var(--text)'}">${c.n}</div><div style="font-size:11px;color:var(--t3)">${c.tz.replace('_',' ')}</div></div><div style="font-size:13px;font-weight:600;color:var(--t2);font-variant-numeric:tabular-nums">${t}</div></div>`;}).join('');openMo('moCkPicker');}
+function pickCity(tz,f,n){ckSlots[ckPickerSlot]={tz,f,n};localStorage.setItem('ck'+ckPickerSlot,JSON.stringify({tz,f,n}));applyCkSlots();closeMo('moCkPicker');toast(n+' seçildi');}
+applyCkSlots();updateClocks();setInterval(updateClocks,1000);
 function sw(tab,el){doSw(tab,el);}
 function doSw(tab,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));$('tab-'+tab).classList.add('active');el.classList.add('on');$('cnt').scrollTop=0;if(tab==='doviz'&&!dovizLoaded)loadDoviz();}
 const CATS={
