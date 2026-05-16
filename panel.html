@@ -52,7 +52,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 .ck-info{display:flex;flex-direction:column;align-items:flex-end}
 .ck-loc{font-size:8px;color:var(--t3);letter-spacing:.4px;text-transform:uppercase;line-height:1;margin-bottom:1px}
 .ck-time{font-size:11px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:.3px;line-height:1}
-.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(90px + env(safe-area-inset-bottom));background:var(--bg)}
+.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(110px + env(safe-area-inset-bottom));background:var(--bg)}
 .content::-webkit-scrollbar{width:2px}
 .content::-webkit-scrollbar-track{background:transparent}
 .content::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:2px}
@@ -62,13 +62,13 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 .panel.active.sl-r{animation:slideInR .28s cubic-bezier(.25,.46,.45,.94)}
 .panel.active.sl-l{animation:slideInL .28s cubic-bezier(.25,.46,.45,.94)}
 
-.bnav{position:fixed;bottom:calc(14px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);height:62px;background:rgba(8,12,22,.97);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);border:1px solid rgba(255,255,255,.09);border-radius:32px;display:flex;align-items:center;padding:0 4px;z-index:100;box-shadow:0 12px 48px rgba(0,0,0,.7),0 2px 8px rgba(0,0,0,.5),0 1px 0 rgba(255,255,255,.05) inset;gap:0;white-space:nowrap}
-.ni{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 14px;cursor:pointer;border-radius:26px;transition:all .22s cubic-bezier(.4,0,.2,1);-webkit-tap-highlight-color:transparent;user-select:none}
-.ni-ic{width:42px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:18px;transition:all .3s cubic-bezier(.34,1.4,.64,1)}
-.ni.on .ni-ic{background:var(--gold);transform:scale(1.06);box-shadow:0 2px 12px rgba(212,168,67,.4)}
+.bnav{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);height:72px;background:rgba(8,12,22,.97);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);border:1px solid rgba(255,255,255,.1);border-radius:36px;display:flex;align-items:center;padding:0 6px;z-index:100;box-shadow:0 16px 56px rgba(0,0,0,.75),0 4px 16px rgba(0,0,0,.5),0 1px 0 rgba(255,255,255,.06) inset}
+.ni{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 22px;cursor:pointer;border-radius:28px;transition:all .22s cubic-bezier(.4,0,.2,1);-webkit-tap-highlight-color:transparent;user-select:none}
+.ni-ic{width:52px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:22px;transition:all .3s cubic-bezier(.34,1.4,.64,1)}
+.ni.on .ni-ic{background:var(--gold);transform:scale(1.06);box-shadow:0 3px 16px rgba(212,168,67,.5)}
 .ni-ic svg{transition:stroke .2s;stroke:var(--t3);fill:none}
 .ni.on .ni-ic svg{stroke:#07090f}
-.ni-lb{font-size:10px;font-weight:500;color:var(--t3);transition:all .22s;letter-spacing:.2px;line-height:1}
+.ni-lb{font-size:11px;font-weight:500;color:var(--t3);transition:all .22s;letter-spacing:.2px;line-height:1}
 .ni.on .ni-lb{color:var(--gold);font-weight:700}
 
 .sec-title{font-size:28px;font-weight:600;color:var(--text);letter-spacing:-.2px;margin-bottom:2px}
@@ -403,19 +403,19 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
   <div class="bnav">
     <div class="ni on" onclick="sw('doviz',this)">
       <div class="ni-ic">
-        <svg width="22" height="22" viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2c-2.76 0-5 4.48-5 10s2.24 10 5 10 5-4.48 5-10S14.76 2 12 2z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+        <svg width="26" height="26" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2c-2.76 0-5 4.48-5 10s2.24 10 5 10 5-4.48 5-10S14.76 2 12 2z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
       </div>
       <div class="ni-lb">D&#246;viz</div>
     </div>
     <div class="ni" onclick="sw('para',this)">
       <div class="ni-ic">
-        <svg width="22" height="22" viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="3"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+        <svg width="26" height="26" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="3"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
       </div>
       <div class="ni-lb">Para</div>
     </div>
     <div class="ni" onclick="sw('borclar',this)">
       <div class="ni-ic">
-        <svg width="22" height="22" viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="3"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        <svg width="26" height="26" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="3"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
       </div>
       <div class="ni-lb">Bor&#x15F;lar</div>
     </div>
