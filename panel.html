@@ -42,8 +42,6 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
   .app{max-width:780px;left:50%;right:auto;transform:translateX(-50%);
     border-left:1px solid var(--brd);border-right:1px solid var(--brd);
     box-shadow:0 0 60px rgba(0,0,0,.6)}
-  .bnav{max-width:780px;left:50%;right:auto;transform:translateX(-50%);
-    border-left:1px solid var(--brd);border-right:1px solid var(--brd)}
 }
 .top-bar{padding:calc(env(safe-area-inset-top) + 10px) 20px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--brd);flex-shrink:0;background:#050810}
 .logo{font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.5px;text-transform:uppercase;white-space:nowrap}
@@ -54,21 +52,24 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
 .ck-info{display:flex;flex-direction:column;align-items:flex-end}
 .ck-loc{font-size:8px;color:var(--t3);letter-spacing:.4px;text-transform:uppercase;line-height:1;margin-bottom:1px}
 .ck-time{font-size:11px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:.3px;line-height:1}
-.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--nav) + 20px + env(safe-area-inset-bottom));background:var(--bg)}
+.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(90px + env(safe-area-inset-bottom));background:var(--bg)}
 .content::-webkit-scrollbar{width:2px}
 .content::-webkit-scrollbar-track{background:transparent}
 .content::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:2px}
 .panel{display:none;padding:18px 14px}.panel.active{display:block}
+@keyframes slideInR{from{opacity:0;transform:translateX(32px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideInL{from{opacity:0;transform:translateX(-32px)}to{opacity:1;transform:translateX(0)}}
+.panel.active.sl-r{animation:slideInR .28s cubic-bezier(.25,.46,.45,.94)}
+.panel.active.sl-l{animation:slideInL .28s cubic-bezier(.25,.46,.45,.94)}
 
-.bnav{position:fixed;bottom:0;left:0;right:0;height:calc(64px + env(safe-area-inset-bottom));background:rgba(5,8,16,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.06);display:flex;align-items:flex-start;padding-bottom:env(safe-area-inset-bottom);z-index:50}
-.ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:12px 0 0;cursor:pointer;position:relative;transition:all .25s;-webkit-tap-highlight-color:transparent}
-.ni-ic{width:44px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:16px;transition:all .25s}
-.ni.on .ni-ic{background:rgba(212,168,67,.14)}
-.ni-ic svg{transition:all .25s;stroke:var(--t3);fill:none}
-.ni.on .ni-ic svg{stroke:var(--gold)}
-.ni-lb{font-size:10px;font-weight:500;color:var(--t3);transition:color .25s;letter-spacing:.3px}
-.ni.on .ni-lb{color:var(--gold);font-weight:600}
-.ni.on::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:32px;height:2.5px;background:linear-gradient(90deg,rgba(212,168,67,.4),var(--gold),rgba(212,168,67,.4));border-radius:0 0 4px 4px;box-shadow:0 0 8px rgba(212,168,67,.5)}
+.bnav{position:fixed;bottom:calc(14px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);height:64px;background:rgba(8,12,22,.96);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border:1px solid rgba(255,255,255,.1);border-radius:36px;display:flex;align-items:center;padding:0 6px;z-index:50;box-shadow:0 8px 40px rgba(0,0,0,.6),0 2px 12px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.04) inset;gap:2px}
+.ni{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 18px;cursor:pointer;position:relative;transition:all .25s;border-radius:28px;min-width:82px;-webkit-tap-highlight-color:transparent}
+.ni-ic{width:46px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:20px;transition:all .3s cubic-bezier(.34,1.56,.64,1)}
+.ni.on .ni-ic{background:var(--gold);transform:scale(1.08)}
+.ni-ic svg{transition:all .3s;stroke:var(--t3);fill:none}
+.ni.on .ni-ic svg{stroke:#080c16}
+.ni-lb{font-size:10px;font-weight:500;color:var(--t3);transition:all .25s;letter-spacing:.3px}
+.ni.on .ni-lb{color:var(--gold);font-weight:700}
 
 .sec-title{font-size:28px;font-weight:600;color:var(--text);letter-spacing:-.2px;margin-bottom:2px}
 .sec-sub{font-size:12px;color:var(--t3);margin-bottom:18px;letter-spacing:.2px}
@@ -434,18 +435,7 @@ html,body{height:100%;background:#0a0e14;color:var(--text);font-family:'Inter',s
     <div class="field"><label>Kategori</label><div class="cat-grid" id="catGrid"></div></div>
     <div class="field"><label>A&#xE7;&#x131;klama</label><input type="text" id="pAciklama" placeholder="&#214;rn: Market al&#x131;&#x15F;veri&#x15F;i"></div>
     <div class="field2">
-      <div class="field" style="margin-bottom:0"><label>Tutar</label>
-        <div class="amt-with-cur">
-          <input type="text" inputmode="decimal" id="pTutar" placeholder="0" oninput="onAmtInput()">
-          <select class="amt-cur-sel" id="pCur" onchange="onAmtInput()">
-            <option value="TRY">&#x1F1F9;&#x1F1F7; TRY</option>
-            <option value="USD">&#x1F1FA;&#x1F1F8; USD</option>
-            <option value="THB">&#x1F1F9;&#x1F1ED; THB</option>
-            <option value="PHP">&#x1F1F5;&#x1F1ED; PHP</option>
-          </select>
-        </div>
-        <div class="tl-preview" id="pTlPreview" style="display:none"></div>
-      </div>
+      <div class="field" style="margin-bottom:0"><label>Tutar (TL)</label><input type="text" inputmode="numeric" id="pTutar" placeholder="0" oninput="fmtMoney(this)"></div>
       <div class="field" style="margin-bottom:0"><label>Tarih</label><input type="date" id="pTarih"></div>
     </div>
     <div class="field"><label>Hesap</label>
@@ -634,8 +624,23 @@ function applyCkSlots(){ckSlots.forEach((c,i)=>{const f=$('ck'+i+'-flag'),l=$('c
 function openCkPicker(slot){ckPickerSlot=slot;const cur=ckSlots[slot];const list=$('ckCityList');list.innerHTML=CITIES.map(c=>{const active=c.tz===cur.tz;const t=fmtTZ(c.tz);return `<div onclick="pickCity('${c.tz}','${c.f}','${c.n}')" style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;background:${active?'var(--gold-d)':'transparent'};border:1px solid ${active?'var(--gold-b)':'transparent'};cursor:pointer;transition:all .15s"><span style="font-size:22px;line-height:1">${c.f}</span><div style="flex:1"><div style="font-size:14px;font-weight:${active?'600':'400'};color:${active?'var(--gold)':'var(--text)'}">${c.n}</div><div style="font-size:11px;color:var(--t3)">${c.tz.replace('_',' ')}</div></div><div style="font-size:13px;font-weight:600;color:var(--t2);font-variant-numeric:tabular-nums">${t}</div></div>`;}).join('');openMo('moCkPicker');}
 function pickCity(tz,f,n){ckSlots[ckPickerSlot]={tz,f,n};localStorage.setItem('ck'+ckPickerSlot,JSON.stringify({tz,f,n}));applyCkSlots();closeMo('moCkPicker');toast(n+' seçildi');}
 applyCkSlots();updateClocks();setInterval(updateClocks,1000);
-function sw(tab,el){doSw(tab,el);}
-function doSw(tab,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));$('tab-'+tab).classList.add('active');el.classList.add('on');$('cnt').scrollTop=0;if(tab==='doviz'&&!dovizLoaded)loadDoviz();}
+const TAB_ORDER=['doviz','para','borclar'];
+let curTab='doviz';
+function sw(tab,el){
+  if(tab===curTab)return;
+  const fromIdx=TAB_ORDER.indexOf(curTab);
+  const toIdx=TAB_ORDER.indexOf(tab);
+  const dir=toIdx>fromIdx?'sl-r':'sl-l';
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active','sl-r','sl-l'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  const panel=$('tab-'+tab);
+  panel.classList.add('active',dir);
+  el.classList.add('on');
+  $('cnt').scrollTop=0;
+  curTab=tab;
+  if(tab==='doviz'&&!dovizLoaded)loadDoviz();
+  setTimeout(()=>panel.classList.remove('sl-r','sl-l'),320);
+}
 const CATS={
   gelir:[{e:'&#x1F4BC;',n:'Maa&#x15F;'},{e:'&#x1F4B0;',n:'Serbest'},{e:'&#x1F4C8;',n:'Yat&#x131;r&#x131;m'},{e:'&#x1F381;',n:'Hediye'},{e:'&#x1F3E0;',n:'Kira G.'},{e:'&#x1F4E6;',n:'Sat&#x131;&#x15F;'},{e:'&#x1F4B8;',n:'Transfer'},{e:'&#x2795;',n:'Di&#x11F;er'}],
   gider:[{e:'&#x1F6D2;',n:'Market'},{e:'&#x1F37D;&#xFE0F;',n:'Yemek'},{e:'&#x1F697;',n:'Ula&#x15F;&#x131;m'},{e:'&#x1F3E0;',n:'Kira'},{e:'&#x1F48A;',n:'Sa&#x11F;l&#x131;k'},{e:'&#x1F6CD;&#xFE0F;',n:'Al&#x131;&#x15F;veri&#x15F;'},{e:'&#x1F3AE;',n:'E&#x11F;lence'},{e:'&#x1F4F1;',n:'Faturalar'},{e:'&#x2708;&#xFE0F;',n:'Seyahat'},{e:'&#x26FD;',n:'Yak&#x131;t'},{e:'&#x1F4DA;',n:'E&#x11F;itim'},{e:'&#x1F4CB;',n:'Di&#x11F;er'}],
@@ -655,8 +660,8 @@ function renderListe(data){const el=$('pListe');if(!data.length){el.innerHTML='<
 function renderTakvim(data){const el=$('pTakvim');if(!data.length){el.innerHTML='<div class="empty"><div class="empty-ic">&#x1F4C5;</div><p>Bu ay i&#x15F;lem yok</p></div>';return;}const grp={};data.forEach(p=>{if(!grp[p.tarih])grp[p.tarih]=[];grp[p.tarih].push(p);});const sorted=Object.keys(grp).sort((a,b)=>b.localeCompare(a));el.innerHTML=sorted.map(date=>{const items=grp[date];const dayNet=items.reduce((s,p)=>p.tur==='gelir'?s+p.tutar:p.tur==='gider'?s-p.tutar:s,0);const d=new Date(date+'T00:00:00');const dname=d.toLocaleDateString('tr-TR',{weekday:'short'}).toUpperCase();return `<div class="dg"><div class="dh"><div style="display:flex;align-items:baseline;gap:8px"><span class="dn">${d.getDate()}</span><span class="dname">${dname}</span></div><span class="dtot" style="color:${dayNet>=0?'var(--grn)':'var(--red)'}">${dayNet>=0?'+':''}${fmt(dayNet)}</span></div><div class="card" style="padding:0 16px;margin-top:6px">${items.map(p=>`<div class="ir" onclick="openParaMo('${p.id}')"><div class="cic" style="background:${p.tur==='gelir'?'var(--grn-d)':p.tur==='havale'?'var(--blu-d)':'var(--red-d)'}">${catEm(p.tur,p.kategori)}</div><div class="ii"><div class="in">${p.aciklama}</div><div class="im">${p.hesap?`<span>${p.hesap}</span>`:''}<span class="badge ${p.tur==='gelir'?'grn':p.tur==='havale'?'blu':'red'}">${p.kategori||p.tur}</span></div></div><div class="ia ${p.tur==='gelir'?'grn':p.tur==='havale'?'blu':'red'}">${p.tur==='gider'?'&#x2212;':'+'}${fmt(p.tutar)}</div></div>`).join('')}</div></div>`;}).join('');}
 const ICLRS=['#e05252','#d4a843','#34c97e','#4a90e2','#9b7fd4','#e0845b','#5bc4d5','#aaa'];
 function renderIstat(data){const el=$('pIstat');if(!data.length){el.innerHTML='<div class="empty"><div class="empty-ic">&#x1F4CA;</div><p>Bu ay i&#x15F;lem yok</p></div>';return;}const catT={};data.filter(p=>p.tur==='gider').forEach(p=>{const k=p.kategori||'Di&#x11F;er';catT[k]=(catT[k]||0)+p.tutar;});const gTot=Object.values(catT).reduce((s,v)=>s+v,0);const sorted=Object.entries(catT).sort((a,b)=>b[1]-a[1]);const hesT={};data.forEach(p=>{const h=p.hesap||'Di&#x11F;er';if(!hesT[h])hesT[h]={g:0,gd:0};if(p.tur==='gelir')hesT[h].g+=p.tutar;if(p.tur==='gider')hesT[h].gd+=p.tutar;});el.innerHTML=`<div class="card"><div class="sl" style="margin-bottom:10px">Gider Kategorileri</div><div class="istat-bar">${sorted.map(([,v],i)=>`<div style="width:${gTot?v/gTot*100:0}%;background:${ICLRS[i%ICLRS.length]};height:100%"></div>`).join('')}</div>${sorted.map(([k,v],i)=>`<div class="isi"><div style="width:10px;height:10px;border-radius:50%;background:${ICLRS[i%ICLRS.length]};flex-shrink:0"></div><div style="flex:1"><div style="font-size:12px">${catEm('gider',k)} ${k}</div><div style="font-size:10px;color:var(--t3)">${gTot?(v/gTot*100).toFixed(1):0}%</div></div><div class="ia red" style="font-size:18px">${fmt(v)}</div></div>`).join('')}</div><div class="card"><div class="sl" style="margin-bottom:10px">Hesap Baz&#x131;nda</div>${Object.entries(hesT).map(([h,v])=>`<div class="isi"><div style="flex:1;font-size:12px">${h}</div><div style="display:flex;gap:12px"><span class="ia grn" style="font-size:16px">+${fmt(v.g)}</span><span class="ia red" style="font-size:16px">&#x2212;${fmt(v.gd)}</span></div></div>`).join('')}</div>`;}
-function openParaMo(id=null){editParaId=id;const curSel=$('pCur');curSel.value=travelCur;$('pTlPreview').style.display='none';if(id){const p=allPara.find(x=>x.id===id);if(!p)return;$('moParaTitle').textContent='İşlem Düzenle';setTT(p.tur);selCat=p.kategori;initCatGrid();$('pAciklama').value=p.aciklama;const origAmt=p.tutarOrij||p.tutar;const origCur=p.paraBirimi||'TRY';$('pTutar').value=origAmt;$('pTutar').dataset.raw=origAmt;curSel.value=origCur;$('pTarih').value=p.tarih;$('pHesap').value=p.hesap||'Nakit';$('moParaDelBtn').style.display='';}else{$('moParaTitle').textContent='İşlem Ekle';setTT('gider');selCat='';initCatGrid();$('pAciklama').value='';$('pTutar').value='';$('pTutar').dataset.raw='';$('pTarih').value=todayStr();$('pHesap').value='Nakit';$('moParaDelBtn').style.display='none';}openMo('moParaAdd');}
-async function savePara(){const aciklama=$('pAciklama').value.trim();const cur=$('pCur').value;const rawVal=parseFloat(($('pTutar').value||'').replace(/\./g,'').replace(',','.'))||0;const tutar=cur==='TRY'?getMv('pTutar'):Math.round(tlFromCur(rawVal,cur));const tarih=$('pTarih').value;const hesap=$('pHesap').value;const kategori=selCat||'Diğer';if(!aciklama||!tutar||!tarih){toast('Açıklama, tutar ve tarih zorunlu');return;}const data={tur:curTT,aciklama,tutar,tarih,hesap,kategori,ts:Date.now()};if(cur!=='TRY'){data.tutarOrij=rawVal;data.paraBirimi=cur;}try{if(editParaId){await db.collection('para').doc(editParaId).update(data);}else{await db.collection('para').add(data);}closeMo('moParaAdd');toast('Kaydedildi ✓');}catch(e){toast('Hata: '+e.message);}}
+function openParaMo(id=null){editParaId=id;if(id){const p=allPara.find(x=>x.id===id);if(!p)return;$('moParaTitle').textContent='İşlem Düzenle';setTT(p.tur);selCat=p.kategori;initCatGrid();$('pAciklama').value=p.aciklama;$('pTutar').value=fmtN(p.tutar);$('pTutar').dataset.raw=Math.round(p.tutar).toString();$('pTarih').value=p.tarih;$('pHesap').value=p.hesap||'Nakit';$('moParaDelBtn').style.display='';}else{$('moParaTitle').textContent='İşlem Ekle';setTT('gider');selCat='';initCatGrid();$('pAciklama').value='';$('pTutar').value='';$('pTutar').dataset.raw='';$('pTarih').value=todayStr();$('pHesap').value='Nakit';$('moParaDelBtn').style.display='none';}openMo('moParaAdd');}
+async function savePara(){const aciklama=$('pAciklama').value.trim();const tutar=getMv('pTutar');const tarih=$('pTarih').value;const hesap=$('pHesap').value;const kategori=selCat||'Diğer';if(!aciklama||!tutar||!tarih){toast('Açıklama, tutar ve tarih zorunlu');return;}const data={tur:curTT,aciklama,tutar,tarih,hesap,kategori,ts:Date.now()};try{if(editParaId){await db.collection('para').doc(editParaId).update(data);}else{await db.collection('para').add(data);}closeMo('moParaAdd');toast('Kaydedildi ✓');}catch(e){toast('Hata: '+e.message);}}
 async function delParaConfirm(){if(!confirm('Bu i&#x15F;lemi silmek istiyor musunuz?'))return;try{await db.collection('para').doc(editParaId).delete();closeMo('moParaAdd');toast('Silindi');}catch(e){toast('Hata: '+e.message);}}
 db.collection('para').orderBy('ts','desc').onSnapshot(snap=>{allPara=snap.docs.map(d=>({id:d.id,...d.data()}));updateMonthLabel();renderPara();});
 const HAZIR=[{ad:'Yap&#x131; Kredi',r:'#0066CC'},{ad:'&#x130;&#x15F; Bankas&#x131;',r:'#005CA9'},{ad:'Garanti',r:'#00A651'},{ad:'Akbank',r:'#E30613'},{ad:'Ziraat',r:'#008000'},{ad:'Halkbank',r:'#003087'},{ad:'Vak&#x131;fbank',r:'#F5A623'},{ad:'Denizbank',r:'#00A3E0'},{ad:'QNB',r:'#6B0080'},{ad:'TEB',r:'#003087'},{ad:'Enpara',r:'#FF6B00'},{ad:'ING',r:'#FF6600'}];
